@@ -1,29 +1,45 @@
-version: "3.8"
+version: "3.9"
 services:
   mysql:
     image: mysql:latest
     container_name: generate-mysql-db
-    env_file:
-      - .env
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: yoyo5555
+      MYSQL_DATABASE: generate-db
     ports:
-      - "${MYSQL_HOST_PORT:-3306}:${MYSQL_CONTAINER_PORT:-3306}"
+      - "3306:3306"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    ports:
+      - "8001:80"
+    environment:
+      PMA_HOSTS: mysql
+      UPLOAD_LIMIT: 10M
+
   redis:
     image: redis:latest
-    container_name: genenrate-redis
-    env_file:
-      - .env
+    container_name: generate-redis
     hostname: redis
-    command: ["redis-server", "--include", "/usr/local/etc/redis/redis.conf"]
+    command:
+      [
+        "redis-server",
+        "--include",
+        "/usr/local/etc/redis/redis.conf",
+        "--appendonly",
+        "yes",
+        "--requirepass",
+        "yoyo5555",
+      ]
     ports:
       - "6379:6379"
     volumes:
-      - redis-data:/data
-      - "./redis/redis.conf:/usr/local/etc/redis/redis.conf"
+      - redis-data:/var/lib/redis
+      - "./pkg/redis/conf/generate.conf:/usr/local/etc/redis/redis.conf"
     environment:
-      REDIS_REPLICATION_MODE: "${REDIS_REPLICATION_MODE}"
+      REDIS_REPLICATION_MODE: master
+      REDIS_PASSWORD: yoyo5555
 
 volumes:
   redis-data:

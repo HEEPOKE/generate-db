@@ -1,5 +1,7 @@
 # generate-db
 
+- phpmyadmin use user and password same mysql database
+
 ## Config Environment
 
 ```bash
