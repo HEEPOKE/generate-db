@@ -1,8 +1,8 @@
 version: "3.8"
 services:
   mysql:
-    container_name: generate-mysql-db
     image: mysql:latest
+    container_name: generate-mysql-db
     env_file:
       - .env
     environment:
@@ -13,6 +13,8 @@ services:
   redis:
     image: redis:latest
     container_name: genenrate-redis
+    env_file:
+      - .env
     hostname: redis
     command: ["redis-server", "--include", "/usr/local/etc/redis/redis.conf"]
     ports:
@@ -21,7 +23,7 @@ services:
       - redis-data:/data
       - "./redis/redis.conf:/usr/local/etc/redis/redis.conf"
     environment:
-      - REDIS_REPLICATION_MODE=master
+      REDIS_REPLICATION_MODE: "${REDIS_REPLICATION_MODE}"
 
 volumes:
   redis-data:
