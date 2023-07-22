@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+  mysql:
+    container_name: generate-mysql-db
+    image: mysql:latest
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - "${MYSQL_HOST_PORT:-3306}:${MYSQL_CONTAINER_PORT:-3306}"
+  redis:
+    image: redis:latest
+    container_name: genenrate-redis
+    hostname: redis
+    command: ["redis-server", "--include", "/usr/local/etc/redis/redis.conf"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+      - "./redis/redis.conf:/usr/local/etc/redis/redis.conf"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+
+volumes:
+  redis-data:
