@@ -18,6 +18,14 @@ func NewGenerateHandler(generateService services.GenerateService) *GenerateHandl
 	return &GenerateHandler{generateService: generateService}
 }
 
+// Get List All Generate Data
+// @Summary Get List All Generate Data
+// @Description Get List All Generate Data
+// @Tags Generate
+// @Accept application/json
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /generate/get-details [get]
 func (gh *GenerateHandler) GetListGenerateAll(c echo.Context) error {
 	users, err := gh.generateService.GetGenerateAll()
 	if err != nil {

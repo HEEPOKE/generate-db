@@ -10,6 +10,15 @@ import (
 	"github.com/HEEPOKE/generate-db/pkg/databases"
 )
 
+// @title Generate Mock-up API
+// @version 1.0
+// @description Auto Generate Mock-up Data
+// @contact.name HEEPOKE Support
+// @contact.url https://github.com/HEEPOKE
+// @contact.email Damon1FX@gmail.com
+// @host localhost:6476
+// @BasePath /apis
+// @schemes http
 func main() {
 	_, err := config.LoadConfig()
 	if err != nil {

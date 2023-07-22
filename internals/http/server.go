@@ -7,6 +7,7 @@ import (
 	"github.com/HEEPOKE/generate-db/internals/app/handlers"
 	"github.com/HEEPOKE/generate-db/internals/app/services"
 	"github.com/HEEPOKE/generate-db/internals/core/interfaces"
+	_ "github.com/HEEPOKE/generate-db/pkg/docs"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -54,7 +55,9 @@ func (s *Server) RouteInit(address string) {
 func (s *Server) routeConfig() {
 	apis := s.echo.Group("/apis")
 
+	apis.GET("/docs/*", echoSwagger.WrapHandler)
+
 	generate := apis.Group("/generate")
 
-	generate.GET("/mockup-data", s.generateHandler.GetListGenerateAll)
+	generate.GET("/get-details", s.generateHandler.GetListGenerateAll)
 }
