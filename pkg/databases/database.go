@@ -6,6 +6,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/HEEPOKE/generate-db/internals/domains/models"
 	"github.com/HEEPOKE/generate-db/pkg/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -31,6 +32,8 @@ func ConnectDatabase() (*gorm.DB, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	db.AutoMigrate(&models.Generate{})
 
 	return db, nil
 }
