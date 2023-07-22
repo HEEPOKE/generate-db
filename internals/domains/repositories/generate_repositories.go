@@ -26,3 +26,7 @@ func (g *GenerateRepository) GetGenerateAll() ([]*models.Generate, error) {
 	}
 	return generates, nil
 }
+
+func (g *GenerateRepository) GenerateData(generate *models.Generate) error {
+	return g.db.Create(generate).Error
+}

@@ -15,3 +15,10 @@ func FailResponse(c echo.Context, err error, msg string, status int) error {
 	}
 	return nil
 }
+
+func SuccessResponse(c echo.Context, ResponseMessage *response.ResponseMessage) error {
+	if ResponseMessage != nil {
+		return c.JSON(ResponseMessage.Code, ResponseMessage)
+	}
+	return nil
+}

@@ -23,5 +23,17 @@ func (gh *GenerateHandler) GetListGenerateAll(c echo.Context) error {
 		return helpers.FailResponse(c, err, constants.ERR_GET_LIST_GENERATE, http.StatusInternalServerError)
 	}
 
-	return c.JSON(http.StatusOK, users)
+	status := response.StatusMessage{
+Code: http.StatusOK,
+Message:"success",
+Service: "",
+Description: "",
+	}
+
+	response := response.ResponseMessage{
+		Status: status,
+		Payload:   users,
+	}
+
+	return helpers.SuccessResponse(c, response)
 }
