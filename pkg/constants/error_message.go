@@ -1,5 +1,5 @@
 package constants
 
 const (
-	ERR_GET_LIST_GENERATE = "Can't Get List Generate Data"
+	ERR_GET_LIST_GENERATE = "Failed to get the list of generates."
 )
