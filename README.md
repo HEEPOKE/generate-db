@@ -11,3 +11,9 @@
 ```bash
 docker compose up -d
 ```
+
+## How to run
+
+```bash
+go run cmd/main.go
+```
