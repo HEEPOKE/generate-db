@@ -9,6 +9,8 @@ import (
 	"github.com/go-redis/redis/v8"
 )
 
+var Rdb *redis.Client
+
 func ConnectToRedis() *redis.Client {
 	client := redis.NewClient(&redis.Options{
 		Addr:     fmt.Sprintf("%s:%s", config.Cfg.REDIS_URL, config.Cfg.REDIS_PORT),

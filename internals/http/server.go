@@ -4,15 +4,19 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/HEEPOKE/generate-db/internals/app/handlers"
+	"github.com/HEEPOKE/generate-db/internals/app/services"
+	"github.com/HEEPOKE/generate-db/internals/core/interfaces"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
 
 type Server struct {
-	echo *echo.Echo
+	echo            *echo.Echo
+	generateHandler *handlers.GenerateHandler
 }
 
-func NewServer() *Server {
+func NewServer(generateRepository interfaces.GenerateRepository) *Server {
 	e := echo.New()
 
 	loggerConfig := middleware.LoggerConfig{
@@ -29,8 +33,12 @@ func NewServer() *Server {
 	e.Use(middleware.LoggerWithConfig(loggerConfig))
 	e.Use(middleware.Recover())
 
+	generateService := services.NewGenerateService(generateRepository)
+	generateHandler := handlers.NewGenerateHandler(*generateService)
+
 	return &Server{
-		echo: e,
+		echo:            e,
+		generateHandler: generateHandler,
 	}
 }
 
