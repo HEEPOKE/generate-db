@@ -52,5 +52,9 @@ func (s *Server) RouteInit(address string) {
 }
 
 func (s *Server) routeConfig() {
-	api := s.echo.Group("/apis")
+	apis := s.echo.Group("/apis")
+
+	generate := apis.Group("/generate")
+
+	generate.GET("/mockup-data", s.generateHandler.GetListGenerateAll)
 }
