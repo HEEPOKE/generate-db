@@ -1,3 +1,10 @@
 {
-  "cSpell.words": ["godotenv", "HEEPOKE", "joho", "labstack", "VARCHAR"]
+  "cSpell.words": [
+    "DATETIME",
+    "godotenv",
+    "HEEPOKE",
+    "joho",
+    "labstack",
+    "VARCHAR"
+  ]
 }
