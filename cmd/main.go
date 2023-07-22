@@ -20,6 +20,8 @@ func main() {
 		log.Fatal(err)
 	}
 
+	databases.CheckRedis()
+
 	address := fmt.Sprintf(":%s", config.Cfg.PORT)
 	http := server.NewServer()
 	http.RouteInit(address)
