@@ -1,25 +1,48 @@
 package utils
 
-import "github.com/brianvoe/gofakeit/v6"
+import (
+	"github.com/HEEPOKE/generate-db/internals/domains/models/request"
+	"github.com/HEEPOKE/generate-db/pkg/enums"
+	"github.com/brianvoe/gofakeit/v6"
+)
 
-func GenerateRandomNames(quantity int) []string {
-	var names []string
+func GenerateRandomNames() string {
+	name := gofakeit.Name()
 
-	for i := 0; i < quantity; i++ {
-		name := gofakeit.Name()
-		names = append(names, name)
-	}
-
-	return names
+	return name
 }
 
-func GenerateRandomPhones(quantity int) []string {
-	var phones []string
+func GenerateRandomPhones() string {
+	phone := "0" + gofakeit.PhoneFormatted()[1:]
 
-	for i := 0; i < quantity; i++ {
-		phone := "0" + gofakeit.PhoneFormatted()[1:]
-		phones = append(phones, phone)
+	return phone
+}
+
+func GenerateBatchData(size int64, generateRequest *request.GenerateRequest) []map[string]interface{} {
+	results := make([]map[string]interface{}, size)
+
+	for j := int64(0); j < size; j++ {
+		rowData := make(map[string]interface{})
+
+		for columnName, columnOptions := range generateRequest.Columns {
+			defaultValue := columnOptions.Default
+			if defaultValue == "" {
+				category := columnOptions.Category
+				switch category {
+				case enums.NAME:
+					rowData[columnName] = GenerateRandomNames()
+				case enums.TEL:
+					rowData[columnName] = GenerateRandomPhones()
+				default:
+					rowData[columnName] = nil
+				}
+			} else {
+				rowData[columnName] = defaultValue
+			}
+		}
+
+		results[j] = rowData
 	}
 
-	return phones
+	return results
 }
