@@ -3,6 +3,7 @@ package models
 import (
 	"time"
 
+	"github.com/HEEPOKE/generate-db/pkg/enums"
 	"gorm.io/gorm"
 )
 
@@ -15,4 +16,10 @@ type Generate struct {
 	CreatedAt   time.Time      `json:"created_at"`
 	UpdatedAt   time.Time      `json:"updated_at"`
 	DeletedAt   gorm.DeletedAt `gorm:"index" json:"deleted_at"`
+}
+
+type GenerateOptions struct {
+	Default  string         `json:"default"`
+	Types    string         `json:"types"`
+	Category enums.Category `json:"category"`
 }
