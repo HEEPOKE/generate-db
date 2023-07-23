@@ -2,6 +2,6 @@ package request
 
 type GenerateRequest struct {
 	Table    string      `json:"table"`
-	Column   interface{} `json:"column"`
+	Columns  interface{} `json:"columns"`
 	Quantity int64       `json:"quantity"`
 }
