@@ -59,9 +59,9 @@ func (gh *GenerateHandler) GetListGenerateAll(c echo.Context) error {
 // @Success 201 {object} map[string]interface{}
 // @Router /generate/mockup-data [post]
 func (gh *GenerateHandler) MockupData(c echo.Context) error {
-	var GenerateRequest request.GenerateRequest
+	var req request.GenerateRequest
 
-	err := c.Bind(&GenerateRequest)
+	err := c.Bind(&req)
 	if err != nil {
 		return helpers.FailResponse(c, err, constants.ERR_DECODE_DATA, http.StatusBadRequest)
 	}
@@ -73,8 +73,8 @@ func (gh *GenerateHandler) MockupData(c echo.Context) error {
 
 	generateData := models.Generate{
 		Key:      key,
-		Table:    GenerateRequest.Table,
-		Quantity: GenerateRequest.Quantity,
+		Table:    req.Table,
+		Quantity: req.Quantity,
 	}
 
 	err = gh.generateService.SaveDetailsGenerate(&generateData)
@@ -82,7 +82,7 @@ func (gh *GenerateHandler) MockupData(c echo.Context) error {
 		return helpers.FailResponse(c, err, constants.ERR_SAVE_DETAILS_GENERATE, http.StatusInternalServerError)
 	}
 
-	result, err := gh.generateService.GenerateData(&GenerateRequest)
+	result, err := gh.generateService.GenerateData(&req)
 	if err != nil {
 		return helpers.FailResponse(c, err, constants.ERR_GENERATE_DATA, http.StatusInternalServerError)
 	}

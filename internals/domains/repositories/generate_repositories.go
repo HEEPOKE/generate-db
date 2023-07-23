@@ -33,7 +33,7 @@ func (g *GenerateRepository) SaveDetailsGenerate(generate *models.Generate) erro
 }
 
 func (g *GenerateRepository) GenerateData(generateRequest *request.GenerateRequest) (interface{}, error) {
-	var generateData request.GenerateRequest
+	var req request.GenerateRequest
 
 	return nil, nil
 }
