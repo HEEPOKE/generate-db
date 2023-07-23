@@ -82,6 +82,11 @@ func (gh *GenerateHandler) MockupData(c echo.Context) error {
 		return helpers.FailResponse(c, err, constants.ERR_SAVE_DETAILS_GENERATE, http.StatusInternalServerError)
 	}
 
+	result, err := gh.generateService.GenerateData(&GenerateRequest)
+	if err != nil {
+		return helpers.FailResponse(c, err, constants.ERR_GENERATE_DATA, http.StatusInternalServerError)
+	}
+
 	status := response.StatusMessage{
 		Code:        constants.STATUS_CREATED,
 		Message:     constants.MESSAGE_SUCCESS,
@@ -91,7 +96,7 @@ func (gh *GenerateHandler) MockupData(c echo.Context) error {
 
 	response := response.ResponseMessage{
 		Status:  status,
-		Payload: nil,
+		Payload: result,
 	}
 
 	return helpers.SuccessResponse(c, http.StatusOK, response)

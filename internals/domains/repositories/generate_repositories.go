@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"github.com/HEEPOKE/generate-db/internals/domains/models"
+	"github.com/HEEPOKE/generate-db/internals/domains/models/request"
 	"github.com/go-redis/redis/v8"
 	"gorm.io/gorm"
 )
@@ -29,4 +30,10 @@ func (g *GenerateRepository) GetGenerateAll() ([]*models.Generate, error) {
 
 func (g *GenerateRepository) SaveDetailsGenerate(generate *models.Generate) error {
 	return g.db.Create(generate).Error
+}
+
+func (g *GenerateRepository) GenerateData(generateRequest *request.GenerateRequest) (interface{}, error) {
+	var generateData request.GenerateRequest
+
+	return nil, nil
 }

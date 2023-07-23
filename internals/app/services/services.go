@@ -3,6 +3,7 @@ package services
 import (
 	"github.com/HEEPOKE/generate-db/internals/core/interfaces"
 	"github.com/HEEPOKE/generate-db/internals/domains/models"
+	"github.com/HEEPOKE/generate-db/internals/domains/models/request"
 )
 
 type GenerateService struct {
@@ -19,4 +20,8 @@ func (s *GenerateService) GetGenerateAll() ([]*models.Generate, error) {
 
 func (s *GenerateService) SaveDetailsGenerate(generate *models.Generate) error {
 	return s.generateRepository.SaveDetailsGenerate(generate)
+}
+
+func (s *GenerateService) GenerateData(generateRequest *request.GenerateRequest) (interface{}, error) {
+	return s.generateRepository.GenerateData(generateRequest)
 }
