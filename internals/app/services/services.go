@@ -16,3 +16,7 @@ func NewGenerateService(generateRepository interfaces.GenerateRepository) *Gener
 func (s *GenerateService) GetGenerateAll() ([]*models.Generate, error) {
 	return s.generateRepository.GetGenerateAll()
 }
+
+func (s *GenerateService) SaveDetailsGenerate(generate *models.Generate) error {
+	return s.generateRepository.SaveDetailsGenerate(generate)
+}

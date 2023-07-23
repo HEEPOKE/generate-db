@@ -5,6 +5,9 @@ import (
 
 	"github.com/HEEPOKE/generate-db/internals/app/helpers"
 	"github.com/HEEPOKE/generate-db/internals/app/services"
+	"github.com/HEEPOKE/generate-db/internals/core/utils"
+	"github.com/HEEPOKE/generate-db/internals/domains/models"
+	"github.com/HEEPOKE/generate-db/internals/domains/models/request"
 	"github.com/HEEPOKE/generate-db/internals/domains/models/response"
 	"github.com/HEEPOKE/generate-db/pkg/constants"
 	"github.com/labstack/echo/v4"
@@ -56,9 +59,27 @@ func (gh *GenerateHandler) GetListGenerateAll(c echo.Context) error {
 // @Success 201 {object} map[string]interface{}
 // @Router /generate/mockup-data [post]
 func (gh *GenerateHandler) MockupData(c echo.Context) error {
-	users, err := gh.generateService.GetGenerateAll()
+	var GenerateRequest request.GenerateRequest
+
+	err := c.Bind(&GenerateRequest)
 	if err != nil {
-		return helpers.FailResponse(c, err, constants.ERR_GENERATE_MOCKUP_DATA, http.StatusInternalServerError)
+		return helpers.FailResponse(c, err, constants.ERR_DECODE_DATA, http.StatusBadRequest)
+	}
+
+	key, err := utils.GenerateRandomKey()
+	if err != nil {
+		return helpers.FailResponse(c, err, constants.ERR_GENERATE_KEY, http.StatusInternalServerError)
+	}
+
+	generateData := models.Generate{
+		Key:      key,
+		Table:    GenerateRequest.Table,
+		Quantity: GenerateRequest.Quantity,
+	}
+
+	err = gh.generateService.SaveDetailsGenerate(&generateData)
+	if err != nil {
+		return helpers.FailResponse(c, err, constants.ERR_SAVE_DETAILS_GENERATE, http.StatusInternalServerError)
 	}
 
 	status := response.StatusMessage{
@@ -70,7 +91,7 @@ func (gh *GenerateHandler) MockupData(c echo.Context) error {
 
 	response := response.ResponseMessage{
 		Status:  status,
-		Payload: users,
+		Payload: nil,
 	}
 
 	return helpers.SuccessResponse(c, http.StatusOK, response)
