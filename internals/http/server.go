@@ -59,6 +59,5 @@ func (s *Server) routeConfig() {
 	apis.GET("/docs/*", echoSwagger.WrapHandler)
 
 	generate := apis.Group("/generate")
-
 	generate.GET("/get-details", s.generateHandler.GetListGenerateAll)
 }

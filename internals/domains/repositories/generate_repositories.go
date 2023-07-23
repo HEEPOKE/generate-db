@@ -32,7 +32,7 @@ func (g *GenerateRepository) SaveDetailsGenerate(generate *models.Generate) erro
 	return g.db.Create(generate).Error
 }
 
-func (g *GenerateRepository) GenerateData(generateRequest *request.GenerateRequest) (interface{}, error) {
+func (g *GenerateRepository) GenerateData(key string, generateRequest *request.GenerateRequest) (interface{}, error) {
 	var req request.GenerateRequest
 
 	return nil, nil

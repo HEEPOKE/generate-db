@@ -82,7 +82,7 @@ func (gh *GenerateHandler) MockupData(c echo.Context) error {
 		return helpers.FailResponse(c, err, constants.ERR_SAVE_DETAILS_GENERATE, http.StatusInternalServerError)
 	}
 
-	result, err := gh.generateService.GenerateData(&req)
+	result, err := gh.generateService.GenerateData(key, &req)
 	if err != nil {
 		return helpers.FailResponse(c, err, constants.ERR_GENERATE_DATA, http.StatusInternalServerError)
 	}
