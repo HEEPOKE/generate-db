@@ -12,12 +12,13 @@ var (
 )
 
 type Config struct {
-	MYSQL_DATABASE         string
-	MYSQL_USER             string
-	MYSQL_ROOT_PASSWORD    string
-	MYSQL_HOST             string
-	MYSQL_HOST_PORT        string
-	MYSQL_CONTAINER_PORT   string
+	POSTGRES_DATABASE      string
+	POSTGRES_USER          string
+	POSTGRES_PASSWORD      string
+	POSTGRES_HOST          string
+	POSTGRES_PORT          string
+	POSTGRES_SSL           string
+	POSTGRES_TIMEZONE      string
 	REDIS_URL              string
 	REDIS_PORT             string
 	REDIS_PASSWORD         string
@@ -33,12 +34,13 @@ func LoadConfig() (*Config, error) {
 	}
 
 	config := &Config{
-		MYSQL_DATABASE:         os.Getenv("MYSQL_DATABASE"),
-		MYSQL_USER:             os.Getenv("MYSQL_USER"),
-		MYSQL_ROOT_PASSWORD:    os.Getenv("MYSQL_ROOT_PASSWORD"),
-		MYSQL_HOST:             os.Getenv("MYSQL_HOST"),
-		MYSQL_HOST_PORT:        os.Getenv("MYSQL_HOST_PORT"),
-		MYSQL_CONTAINER_PORT:   os.Getenv("MYSQL_CONTAINER_PORT"),
+		POSTGRES_DATABASE:      os.Getenv("POSTGRES_DATABASE"),
+		POSTGRES_USER:          os.Getenv("POSTGRES_USER"),
+		POSTGRES_PASSWORD:      os.Getenv("POSTGRES_PASSWORD"),
+		POSTGRES_HOST:          os.Getenv("POSTGRES_HOST"),
+		POSTGRES_PORT:          os.Getenv("POSTGRES_PORT"),
+		POSTGRES_SSL:           os.Getenv("POSTGRES_SSL"),
+		POSTGRES_TIMEZONE:      os.Getenv("POSTGRES_TIMEZONE"),
 		REDIS_URL:              os.Getenv("REDIS_URL"),
 		REDIS_PORT:             os.Getenv("REDIS_PORT"),
 		REDIS_PASSWORD:         os.Getenv("REDIS_PASSWORD"),

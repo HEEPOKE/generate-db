@@ -1,37 +1,20 @@
 version: "3.9"
 services:
-  mysql:
-    image: mysql:latest
-    container_name: generate-mysql-db
-    environment:
-      MYSQL_ROOT_PASSWORD: yoyo5555
-      MYSQL_DATABASE: generate-db
+  postgres:
+    container_name: generate-db
+    image: postgres:latest
     ports:
-      - "3306:3306"
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin
-    ports:
-      - "8001:80"
+      - "5432:5432"
     environment:
-      PMA_HOSTS: mysql
-      UPLOAD_LIMIT: 10M
+      POSTGRES_USER: yoyo
+      POSTGRES_PASSWORD: yoyo5555
+      POSTGRES_DB: generate-db
 
   redis:
     image: redis:latest
     container_name: generate-redis
     hostname: redis
-    command:
-      [
-        "redis-server",
-        "--include",
-        "/usr/local/etc/redis/redis.conf",
-        "--appendonly",
-        "yes",
-        "--requirepass",
-        "yoyo5555",
-      ]
+    command: ["redis-server", "--include", "/usr/local/etc/redis/redis.conf", "--appendonly", "yes", "--requirepass", "yoyo5555"]
     ports:
       - "6379:6379"
     volumes:
