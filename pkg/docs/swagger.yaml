@@ -1,0 +1,46 @@
+basePath: /apis
+host: localhost:6476
+info:
+  contact:
+    email: Damon1FX@gmail.com
+    name: HEEPOKE Support
+    url: https://github.com/HEEPOKE
+  description: Auto Generate Mock-up Data
+  title: Generate Mock-up API
+  version: "1.0"
+paths:
+  /generate/get-details:
+    get:
+      consumes:
+      - application/json
+      description: Get List All Generate Data
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get List All Generate Data
+      tags:
+      - Generate
+  /generate/mockup-data:
+    post:
+      consumes:
+      - application/json
+      description: Get Auto Generate Mock up data
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Auto Generate Mock up data
+      tags:
+      - Generate
+schemes:
+- http
+swagger: "2.0"

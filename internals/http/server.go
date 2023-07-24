@@ -60,4 +60,5 @@ func (s *Server) routeConfig() {
 
 	generate := apis.Group("/generate")
 	generate.GET("/get-details", s.generateHandler.GetListGenerateAll)
+	generate.POST("/mockup-data", s.generateHandler.MockupData)
 }
