@@ -4,7 +4,6 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/HEEPOKE/generate-db/internals/core/utils"
 	"github.com/HEEPOKE/generate-db/internals/domains/models/request"
 	"github.com/HEEPOKE/generate-db/pkg/config"
 	"github.com/HEEPOKE/generate-db/pkg/enums"
@@ -89,7 +88,7 @@ func GenerateBatchData(size int64, generateRequest *request.GenerateRequest) []m
 				category := columnOptions.Types
 				switch category {
 				case enums.FLOAT32:
-					rowData[columnName] = utils.ConvertToFloat32(defaultValue)
+					rowData[columnName] = ConvertToFloat32(defaultValue)
 				default:
 					rowData[columnName] = nil
 				}
