@@ -44,6 +44,14 @@ func GenerateBool(Bool string) bool {
 	return Bool == "true"
 }
 
+func GenerateWord() string {
+	gofakeit.Seed(0)
+
+	randomWord := gofakeit.Word()
+
+	return randomWord
+}
+
 func GenerateBatchData(size int64, generateRequest *request.GenerateRequest) []map[string]interface{} {
 	results := make([]map[string]interface{}, size)
 
@@ -52,8 +60,8 @@ func GenerateBatchData(size int64, generateRequest *request.GenerateRequest) []m
 
 		for columnName, columnOptions := range generateRequest.Columns {
 			defaultValue := columnOptions.Default
-			if defaultValue == "" && !columnOptions.AutoGenerate {
-				category := columnOptions.Category
+			if defaultValue == "" && columnOptions.AutoGenerate {
+				category := columnOptions.Types
 				switch category {
 				case enums.NAME:
 					rowData[columnName] = GenerateRandomNames()
@@ -61,10 +69,12 @@ func GenerateBatchData(size int64, generateRequest *request.GenerateRequest) []m
 					rowData[columnName] = GenerateRandomPhones()
 				case enums.PASSWORD:
 					rowData[columnName] = GeneratePassword(columnOptions.Length)
+				case enums.WORD:
+					rowData[columnName] = GenerateWord()
 				default:
 					rowData[columnName] = nil
 				}
-			} else if defaultValue == "true" || defaultValue == "false" {
+			} else if defaultValue == "true" || defaultValue == "false" && columnOptions.Types == enums.BOOL {
 				rowData[columnName] = GenerateBool(defaultValue)
 			} else {
 				rowData[columnName] = defaultValue

@@ -20,8 +20,7 @@ type Generate struct {
 
 type GenerateOptions struct {
 	Default      string         `json:"default"`
-	Types        string         `json:"types"`
-	Category     enums.Category `json:"category"`
+	Types        enums.Category `json:"types"`
 	Length       int            `json:"length"`
 	AutoGenerate bool           `json:"gen"`
 }
