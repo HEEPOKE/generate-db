@@ -52,7 +52,7 @@ func GenerateBatchData(size int64, generateRequest *request.GenerateRequest) []m
 
 		for columnName, columnOptions := range generateRequest.Columns {
 			defaultValue := columnOptions.Default
-			if defaultValue == "" {
+			if defaultValue == "" && !columnOptions.AutoGenerate {
 				category := columnOptions.Category
 				switch category {
 				case enums.NAME:
