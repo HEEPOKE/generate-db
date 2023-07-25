@@ -22,4 +22,5 @@ type GenerateOptions struct {
 	Default  string         `json:"default"`
 	Types    string         `json:"types"`
 	Category enums.Category `json:"category"`
+	Length   int            `json:"length"`
 }
