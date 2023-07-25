@@ -3,8 +3,8 @@ package enums
 type Category string
 
 const (
-	NAME     Category = "NAME"
-	TEL      Category = "TEL"
-	BOOL     Category = "BOOL"
-	PASSWORD Category = "PASSWORD"
+	NAME     Category = "name"
+	TEL      Category = "tel"
+	BOOL     Category = "bool"
+	PASSWORD Category = "password"
 )

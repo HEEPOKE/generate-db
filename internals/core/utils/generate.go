@@ -40,6 +40,10 @@ func GeneratePassword(length int) string {
 	return string(password)
 }
 
+func GenerateBool(Bool string) bool {
+	return Bool == "true"
+}
+
 func GenerateBatchData(size int64, generateRequest *request.GenerateRequest) []map[string]interface{} {
 	results := make([]map[string]interface{}, size)
 
@@ -55,9 +59,13 @@ func GenerateBatchData(size int64, generateRequest *request.GenerateRequest) []m
 					rowData[columnName] = GenerateRandomNames()
 				case enums.TEL:
 					rowData[columnName] = GenerateRandomPhones()
+				case enums.PASSWORD:
+					rowData[columnName] = GeneratePassword(columnOptions.Length)
 				default:
 					rowData[columnName] = nil
 				}
+			} else if defaultValue == "true" || defaultValue == "false" {
+				rowData[columnName] = GenerateBool(defaultValue)
 			} else {
 				rowData[columnName] = defaultValue
 			}
