@@ -52,6 +52,12 @@ func GenerateWord() string {
 	return randomWord
 }
 
+func GenerateSentence(length int) string {
+	randomWord := gofakeit.Sentence(length)
+
+	return randomWord
+}
+
 func GenerateBatchData(size int64, generateRequest *request.GenerateRequest) []map[string]interface{} {
 	results := make([]map[string]interface{}, size)
 
@@ -71,6 +77,8 @@ func GenerateBatchData(size int64, generateRequest *request.GenerateRequest) []m
 					rowData[columnName] = GeneratePassword(columnOptions.Length)
 				case enums.WORD:
 					rowData[columnName] = GenerateWord()
+				case enums.SENTENCE:
+					rowData[columnName] = GenerateSentence(columnOptions.Length)
 				default:
 					rowData[columnName] = nil
 				}
