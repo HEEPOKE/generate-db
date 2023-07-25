@@ -1,7 +1,11 @@
 package utils
 
 import (
+	"math/rand"
+	"time"
+
 	"github.com/HEEPOKE/generate-db/internals/domains/models/request"
+	"github.com/HEEPOKE/generate-db/pkg/config"
 	"github.com/HEEPOKE/generate-db/pkg/enums"
 	"github.com/brianvoe/gofakeit/v6"
 )
@@ -16,6 +20,24 @@ func GenerateRandomPhones() string {
 	phone := "0" + gofakeit.PhoneFormatted()[1:]
 
 	return phone
+}
+
+func GeneratePassword(length int) string {
+	var validChars string
+	validChars += config.UppercaseLetters
+	validChars += config.LowercaseLetters
+	validChars += config.Numbers
+	validChars += config.SpecialChars
+
+	source := rand.NewSource(time.Now().UnixNano())
+	random := rand.New(source)
+
+	password := make([]byte, length)
+	for i := 0; i < length; i++ {
+		password[i] = validChars[random.Intn(len(validChars))]
+	}
+
+	return string(password)
 }
 
 func GenerateBatchData(size int64, generateRequest *request.GenerateRequest) []map[string]interface{} {
