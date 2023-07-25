@@ -4,6 +4,7 @@ import (
 	"math/rand"
 	"time"
 
+	"github.com/HEEPOKE/generate-db/internals/core/utils"
 	"github.com/HEEPOKE/generate-db/internals/domains/models/request"
 	"github.com/HEEPOKE/generate-db/pkg/config"
 	"github.com/HEEPOKE/generate-db/pkg/enums"
@@ -84,6 +85,14 @@ func GenerateBatchData(size int64, generateRequest *request.GenerateRequest) []m
 				}
 			} else if defaultValue == "true" || defaultValue == "false" && columnOptions.Types == enums.BOOL {
 				rowData[columnName] = GenerateBool(defaultValue)
+			} else if defaultValue != "" && columnOptions.AutoGenerate {
+				category := columnOptions.Types
+				switch category {
+				case enums.FLOAT32:
+					rowData[columnName] = utils.ConvertToFloat32(defaultValue)
+				default:
+					rowData[columnName] = nil
+				}
 			} else {
 				rowData[columnName] = defaultValue
 			}
