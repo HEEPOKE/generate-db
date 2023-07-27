@@ -9,6 +9,8 @@ services:
       POSTGRES_USER: yoyo
       POSTGRES_PASSWORD: yoyo5555
       POSTGRES_DB: generate-db
+    networks:
+      - Heepoke
 
   redis:
     image: redis:latest
@@ -22,9 +24,11 @@ services:
       - "./pkg/redis/conf/generate.conf:/usr/local/etc/redis/redis.conf"
     environment:
       REDIS_REPLICATION_MODE: master
-      REDIS_PASSWORD: yoyo5555
+      REDIS_PASSWORD: 
+    networks:
+      - Heepoke
 
-  web:
+  api:
     build:
       context: .
       dockerfile: Dockerfile
@@ -37,6 +41,12 @@ services:
     depends_on:
       - postgres
       - redis
+    networks:
+      - Heepoke
 
 volumes:
   redis-data:
+
+networks:
+  Heepoke:
+    driver: bridge

@@ -6,16 +6,14 @@
 cp .env.example .env
 ```
 
-## Build Docker
+## Step Build Docker && Run
 
 ```bash
-docker compose up -d
+docker create network Heepoke
 ```
 
-## How to run
-
 ```bash
-go run cmd/main.go
+docker compose up -d && docker compose logs api --follow
 ```
 
 ## Generate Swagger
