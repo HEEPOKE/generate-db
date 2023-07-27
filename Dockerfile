@@ -1,12 +1,17 @@
-FROM golang:1.20
+FROM golang:1.20-alpine
 
-WORKDIR /go/src/app
+WORKDIR /app
 
-COPY go.mod go.sum ./
-RUN go mod download && go mod verify
+RUN go install github.com/cosmtrek/air@latest
+
+COPY go.mod .
+COPY go.sum .
+
+RUN go mod download
 
 COPY . .
 
-RUN go build -o main .
 
-CMD ["./main"]
+EXPOSE 6476
+
+CMD ["air"]

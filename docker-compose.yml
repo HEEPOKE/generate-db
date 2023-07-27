@@ -24,5 +24,19 @@ services:
       REDIS_REPLICATION_MODE: master
       REDIS_PASSWORD: yoyo5555
 
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: generate-api
+    volumes:
+      - "./:./"
+    working_dir: ./cmd
+    ports:
+      - 6476:6476
+    depends_on:
+      - postgres
+      - redis
+
 volumes:
   redis-data:
