@@ -15,7 +15,7 @@ import (
 
 func ConnectDatabase() (*gorm.DB, error) {
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=%s",
-		config.Cfg.POSTGRES_USER, config.Cfg.POSTGRES_PASSWORD, config.Cfg.POSTGRES_HOST, config.Cfg.POSTGRES_PORT, config.Cfg.POSTGRES_DATABASE, config.Cfg.POSTGRES_SSL, config.Cfg.POSTGRES_TIMEZONE)
+		config.Cfg.POSTGRES_HOST, config.Cfg.POSTGRES_USER, config.Cfg.POSTGRES_PASSWORD, config.Cfg.POSTGRES_DATABASE, config.Cfg.POSTGRES_PORT, config.Cfg.POSTGRES_SSL, config.Cfg.POSTGRES_TIMEZONE)
 
 	newLogger := logger.New(
 		log.New(os.Stdout, "\r\n", log.LstdFlags),
