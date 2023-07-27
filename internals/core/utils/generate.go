@@ -89,6 +89,8 @@ func GenerateBatchData(size int64, generateRequest *request.GenerateRequest) []m
 				switch category {
 				case enums.FLOAT32:
 					rowData[columnName] = ConvertToFloat32(defaultValue)
+				case enums.FLOAT64:
+					rowData[columnName] = ConvertToFloat64(defaultValue)
 				default:
 					rowData[columnName] = nil
 				}
