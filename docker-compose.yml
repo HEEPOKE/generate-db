@@ -30,8 +30,8 @@ services:
       dockerfile: Dockerfile
     container_name: generate-api
     volumes:
-      - "./:./"
-    working_dir: ./cmd
+      - .:/app
+    working_dir: /app
     ports:
       - 6476:6476
     depends_on:
