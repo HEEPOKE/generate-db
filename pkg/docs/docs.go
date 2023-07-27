@@ -57,6 +57,17 @@ const docTemplate = `{
                     "Generate"
                 ],
                 "summary": "Get Auto Generate Mock up data",
+                "parameters": [
+                    {
+                        "description": "GenerateRequestBody",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/examples.GenerateExample"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
@@ -65,6 +76,96 @@ const docTemplate = `{
                             "additionalProperties": true
                         }
                     }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "enums.Category": {
+            "type": "string",
+            "enum": [
+                "name",
+                "tel",
+                "password",
+                "word",
+                "sentence",
+                "bool",
+                "int",
+                "int8",
+                "int32",
+                "int16",
+                "int64",
+                "uint",
+                "uint8",
+                "uint16",
+                "uint32",
+                "uint64",
+                "float32",
+                "float64",
+                "byte",
+                "rune"
+            ],
+            "x-enum-varnames": [
+                "NAME",
+                "TEL",
+                "PASSWORD",
+                "WORD",
+                "SENTENCE",
+                "BOOL",
+                "INT",
+                "INT8",
+                "INT32",
+                "INT16",
+                "INT64",
+                "UINT",
+                "UINT8",
+                "UINT16",
+                "UINT32",
+                "UINT64",
+                "FLOAT32",
+                "FLOAT64",
+                "BYTE",
+                "RUNE"
+            ]
+        },
+        "examples.GenerateExample": {
+            "type": "object",
+            "required": [
+                "columns",
+                "quantity",
+                "table"
+            ],
+            "properties": {
+                "columns": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/models.GenerateOptions"
+                    }
+                },
+                "quantity": {
+                    "type": "integer",
+                    "example": 1000
+                },
+                "table": {
+                    "type": "string",
+                    "example": "users"
+                }
+            }
+        },
+        "models.GenerateOptions": {
+            "type": "object",
+            "properties": {
+                "default": {
+                    "type": "string"
+                },
+                "gen": {
+                    "type": "boolean"
+                },
+                "length": {
+                    "type": "integer"
+                },
+                "types": {
+                    "$ref": "#/definitions/enums.Category"
                 }
             }
         }
