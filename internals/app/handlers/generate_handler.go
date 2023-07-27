@@ -21,6 +21,12 @@ func NewGenerateHandler(generateService services.GenerateService) *GenerateHandl
 	return &GenerateHandler{generateService: generateService}
 }
 
+type GenerateRequest struct {
+	Table    string                            `json:"table" validate:"required" example:"users"`
+	Columns  map[string]models.GenerateOptions `json:"columns" validate:"required" swaggo:"true,Example=map[string]models.GenerateOptions{'name': {Default: '', Types: 'string', Length: 0, AutoGenerate: true}, 'tel': {Default: '0999999999', Types: 'string', Length: 10, AutoGenerate: false}}"`
+	Quantity int64                             `json:"quantity" validate:"required" example:"1000"`
+}
+
 // Get List All Generate Data
 // @Summary Get List All Generate Data
 // @Description Get List All Generate Data
@@ -58,6 +64,7 @@ func (gh *GenerateHandler) GetListGenerateAll(c echo.Context) error {
 // @Produce json
 // @Success 201 {object} map[string]interface{}
 // @Router /generate/mockup-data [post]
+// @param Body body handlers.GenerateRequest true "GenerateRequestBody"
 func (gh *GenerateHandler) MockupData(c echo.Context) error {
 	var req request.GenerateRequest
 
