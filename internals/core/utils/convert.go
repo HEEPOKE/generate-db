@@ -19,3 +19,35 @@ func ConvertToFloat64(s string) float64 {
 	}
 	return f64
 }
+
+func ConvertToUint(s string) uint {
+	u64, err := strconv.ParseUint(s, 10, 32)
+	if err != nil {
+		return 0
+	}
+	return uint(u64)
+}
+
+func ConvertToUint8(s string) uint8 {
+	u64, err := strconv.ParseUint(s, 10, 8)
+	if err != nil {
+		return 0
+	}
+	return uint8(u64)
+}
+
+func ConvertToUint16(s string) uint16 {
+	u64, err := strconv.ParseUint(s, 10, 16)
+	if err != nil {
+		return 0
+	}
+	return uint16(u64)
+}
+
+func ConvertToUint32(s string) uint32 {
+	u64, err := strconv.ParseUint(s, 10, 32)
+	if err != nil {
+		return 0
+	}
+	return uint32(u64)
+}

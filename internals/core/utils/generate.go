@@ -91,6 +91,14 @@ func GenerateBatchData(size int64, generateRequest *request.GenerateRequest) []m
 					rowData[columnName] = ConvertToFloat32(defaultValue)
 				case enums.FLOAT64:
 					rowData[columnName] = ConvertToFloat64(defaultValue)
+				case enums.UINT:
+					rowData[columnName] = ConvertToUint(defaultValue)
+				case enums.UINT8:
+					rowData[columnName] = ConvertToUint8(defaultValue)
+				case enums.UINT16:
+					rowData[columnName] = ConvertToUint16(defaultValue)
+				case enums.UINT32:
+					rowData[columnName] = ConvertToUint32(defaultValue)
 				default:
 					rowData[columnName] = nil
 				}
