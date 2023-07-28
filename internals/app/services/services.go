@@ -22,6 +22,6 @@ func (s *GenerateService) SaveDetailsGenerate(generate *models.Generate) error {
 	return s.generateRepository.SaveDetailsGenerate(generate)
 }
 
-func (s *GenerateService) GenerateData(key string, generateRequest *request.GenerateRequest) (interface{}, error) {
+func (s *GenerateService) GenerateData(key string, generateRequest *request.GenerateRequest) ([]map[string]interface{}, error) {
 	return s.generateRepository.GenerateData(key, generateRequest)
 }
