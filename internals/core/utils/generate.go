@@ -58,7 +58,7 @@ func GenerateSentence(length int) string {
 	return randomWord
 }
 
-func GenerateBatchData(size int64, generateRequest *request.GenerateRequest) []map[string]interface{} {
+func GenerateBatchData(size int64, key string, generateRequest *request.GenerateRequest) []map[string]interface{} {
 	results := make([]map[string]interface{}, size)
 
 	for j := int64(0); j < size; j++ {

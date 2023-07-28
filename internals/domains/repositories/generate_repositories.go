@@ -1,6 +1,8 @@
 package repositories
 
 import (
+	"fmt"
+
 	"github.com/HEEPOKE/generate-db/internals/core/utils"
 	"github.com/HEEPOKE/generate-db/internals/domains/models"
 	"github.com/HEEPOKE/generate-db/internals/domains/models/request"
@@ -33,7 +35,7 @@ func (g *GenerateRepository) SaveDetailsGenerate(generate *models.Generate) erro
 	return g.db.Create(generate).Error
 }
 
-func (g *GenerateRepository) GenerateData(key string, generateRequest *request.GenerateRequest) (interface{}, error) {
+func (g *GenerateRepository) GenerateData(key string, generateRequest *request.GenerateRequest) ([]map[string]interface{}, error) {
 	quantity := int64(generateRequest.Quantity)
 	batchSize := int64(10000)
 
@@ -49,15 +51,25 @@ func (g *GenerateRepository) GenerateData(key string, generateRequest *request.G
 		}
 
 		go func(size int64) {
-			results := utils.GenerateBatchData(size, generateRequest)
+			results := utils.GenerateBatchData(size, key, generateRequest)
 			resultChan <- results
 		}(batchSizeToGenerate)
 	}
 
 	var results []map[string]interface{}
-	for i := int64(0); i < numBatches; i++ {
+	for range resultChan {
 		batchResults := <-resultChan
 		results = append(results, batchResults...)
+	}
+
+	fileNumber, err := utils.FindNextFileNumber(key)
+	if err != nil {
+		return nil, fmt.Errorf("เกิดข้อผิดพลาดในการหาลำดับของไฟล์ JSON: %w", err)
+	}
+
+	err = utils.CreateJSONFile(results, key, quantity, fileNumber)
+	if err != nil {
+		return nil, fmt.Errorf("เกิดข้อผิดพลาดในการสร้างไฟล์ JSON: %w", err)
 	}
 
 	return results, nil
