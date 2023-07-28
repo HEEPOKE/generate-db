@@ -135,8 +135,12 @@
                 "columns": {
                     "type": "object",
                     "additionalProperties": {
-                        "$ref": "#/definitions/models.GenerateOptions"
+                        "$ref": "#/definitions/examples.GenerateOptions"
                     }
+                },
+                "key": {
+                    "type": "string",
+                    "example": ""
                 },
                 "quantity": {
                     "type": "integer",
@@ -148,11 +152,12 @@
                 }
             }
         },
-        "models.GenerateOptions": {
+        "examples.GenerateOptions": {
             "type": "object",
             "properties": {
                 "default": {
-                    "type": "string"
+                    "type": "string",
+                    "example": ""
                 },
                 "gen": {
                     "type": "boolean"

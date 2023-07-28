@@ -48,8 +48,11 @@ definitions:
     properties:
       columns:
         additionalProperties:
-          $ref: '#/definitions/models.GenerateOptions'
+          $ref: '#/definitions/examples.GenerateOptions'
         type: object
+      key:
+        example: ""
+        type: string
       quantity:
         example: 1000
         type: integer
@@ -61,9 +64,10 @@ definitions:
     - quantity
     - table
     type: object
-  models.GenerateOptions:
+  examples.GenerateOptions:
     properties:
       default:
+        example: ""
         type: string
       gen:
         type: boolean

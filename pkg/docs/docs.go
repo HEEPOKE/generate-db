@@ -139,8 +139,12 @@ const docTemplate = `{
                 "columns": {
                     "type": "object",
                     "additionalProperties": {
-                        "$ref": "#/definitions/models.GenerateOptions"
+                        "$ref": "#/definitions/examples.GenerateOptions"
                     }
+                },
+                "key": {
+                    "type": "string",
+                    "example": ""
                 },
                 "quantity": {
                     "type": "integer",
@@ -152,11 +156,12 @@ const docTemplate = `{
                 }
             }
         },
-        "models.GenerateOptions": {
+        "examples.GenerateOptions": {
             "type": "object",
             "properties": {
                 "default": {
-                    "type": "string"
+                    "type": "string",
+                    "example": ""
                 },
                 "gen": {
                     "type": "boolean"
