@@ -22,6 +22,24 @@ func GenerateRandomPhones() string {
 	return phone
 }
 
+func GenerateRandomFirstName() string {
+	firstName := gofakeit.FirstName()
+
+	return firstName
+}
+
+func GenerateRandomLastName() string {
+	lastName := gofakeit.LastName()
+
+	return lastName
+}
+
+func GenerateRandomEmail() string {
+	email := gofakeit.Email()
+
+	return email
+}
+
 func GeneratePassword(length int) string {
 	var validChars string
 	validChars += config.UppercaseLetters
@@ -58,6 +76,29 @@ func GenerateSentence(length int) string {
 	return randomWord
 }
 
+func GenerateRandomData(dataType enums.Category, length int) interface{} {
+	switch dataType {
+	case enums.NAME:
+		return GenerateRandomNames()
+	case enums.FIRSTNAME:
+		return GenerateRandomFirstName()
+	case enums.LASTNAME:
+		return GenerateRandomLastName()
+	case enums.EMAIL:
+		return GenerateRandomEmail()
+	case enums.TEL:
+		return GenerateRandomPhones()
+	case enums.PASSWORD:
+		return GeneratePassword(length)
+	case enums.WORD:
+		return GenerateWord()
+	case enums.SENTENCE:
+		return GenerateSentence(length)
+	default:
+		return nil
+	}
+}
+
 func GenerateBatchData(size int64, key string, generateRequest *request.GenerateRequest) []map[string]interface{} {
 	results := make([]map[string]interface{}, size)
 
@@ -66,42 +107,13 @@ func GenerateBatchData(size int64, key string, generateRequest *request.Generate
 
 		for columnName, columnOptions := range generateRequest.Columns {
 			defaultValue := columnOptions.Default
-			if defaultValue == "" && columnOptions.AutoGenerate {
-				category := columnOptions.Types
-				switch category {
-				case enums.NAME:
-					rowData[columnName] = GenerateRandomNames()
-				case enums.TEL:
-					rowData[columnName] = GenerateRandomPhones()
-				case enums.PASSWORD:
-					rowData[columnName] = GeneratePassword(columnOptions.Length)
-				case enums.WORD:
-					rowData[columnName] = GenerateWord()
-				case enums.SENTENCE:
-					rowData[columnName] = GenerateSentence(columnOptions.Length)
-				default:
-					rowData[columnName] = nil
-				}
+
+			if columnOptions.AutoGenerate {
+				rowData[columnName] = GenerateRandomData(columnOptions.Types, columnOptions.Length)
 			} else if defaultValue == "true" || defaultValue == "false" && columnOptions.Types == enums.BOOL {
 				rowData[columnName] = GenerateBool(defaultValue)
 			} else if defaultValue != "" && columnOptions.AutoGenerate {
-				category := columnOptions.Types
-				switch category {
-				case enums.FLOAT32:
-					rowData[columnName] = ConvertToFloat32(defaultValue)
-				case enums.FLOAT64:
-					rowData[columnName] = ConvertToFloat64(defaultValue)
-				case enums.UINT:
-					rowData[columnName] = ConvertToUint(defaultValue)
-				case enums.UINT8:
-					rowData[columnName] = ConvertToUint8(defaultValue)
-				case enums.UINT16:
-					rowData[columnName] = ConvertToUint16(defaultValue)
-				case enums.UINT32:
-					rowData[columnName] = ConvertToUint32(defaultValue)
-				default:
-					rowData[columnName] = nil
-				}
+				rowData[columnName] = ConvertToColumnType(defaultValue, columnOptions.Types)
 			} else {
 				rowData[columnName] = defaultValue
 			}
