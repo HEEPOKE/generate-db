@@ -24,6 +24,8 @@ type Config struct {
 	REDIS_PASSWORD         string
 	REDIS_REPLICATION_MODE string
 	PORT                   string
+	DB_TYPE                string
+	DB_DSN                 string
 }
 
 func LoadConfig() (*Config, error) {
@@ -46,6 +48,8 @@ func LoadConfig() (*Config, error) {
 		REDIS_PASSWORD:         os.Getenv("REDIS_PASSWORD"),
 		REDIS_REPLICATION_MODE: os.Getenv("REDIS_REPLICATION_MODE"),
 		PORT:                   os.Getenv("PORT"),
+		DB_TYPE:                os.Getenv("DB_TYPE"),
+		DB_DSN:                 os.Getenv("DB_DSN"),
 	}
 
 	Cfg = config
