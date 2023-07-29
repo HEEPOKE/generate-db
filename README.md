@@ -42,12 +42,6 @@ user:pass@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True&loc=Local
 host=localhost user=gorm password=gorm dbname=gorm port=9920 sslmode=disable TimeZone=Asia/Shanghai
 ```
 
-- sqlite
-
-```bash
-database_name.db
-```
-
 - sqlserver
 
 ```bash

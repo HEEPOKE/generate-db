@@ -7,7 +7,6 @@ import (
 	"github.com/HEEPOKE/generate-db/pkg/enums"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
-	"gorm.io/driver/sqlite"
 	"gorm.io/driver/sqlserver"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -19,8 +18,6 @@ func getDriver(dbType string) (gorm.Dialector, error) {
 		return postgres.Open(config.Cfg.DB_DSN), nil
 	case string(enums.MYSQL):
 		return mysql.Open(config.Cfg.DB_DSN), nil
-	case string(enums.SQLITE):
-		return sqlite.Open(config.Cfg.DB_DSN), nil
 	case string(enums.SQLSERVER):
 		return sqlserver.Open(config.Cfg.DB_DSN), nil
 	default:
