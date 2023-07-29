@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/HEEPOKE/generate-db/pkg/config"
+	"github.com/HEEPOKE/generate-db/pkg/enums"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
 	"gorm.io/driver/sqlite"
@@ -14,13 +15,13 @@ import (
 
 func getDriver(dbType string) (gorm.Dialector, error) {
 	switch dbType {
-	case "postgres":
+	case string(enums.POSTGRESQL):
 		return postgres.Open(config.Cfg.DB_DSN), nil
-	case "mysql":
+	case string(enums.MYSQL):
 		return mysql.Open(config.Cfg.DB_DSN), nil
-	case "sqlite":
+	case string(enums.SQLITE):
 		return sqlite.Open(config.Cfg.DB_DSN), nil
-	case "sqlserver":
+	case string(enums.SQLSERVER):
 		return sqlserver.Open(config.Cfg.DB_DSN), nil
 	default:
 		return nil, fmt.Errorf("unsupported DB_TYPE specified: %s", dbType)
