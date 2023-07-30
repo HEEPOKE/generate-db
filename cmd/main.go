@@ -32,9 +32,20 @@ func main() {
 
 	databases.CheckRedis()
 
+	sqlDB, err := databases.ConnectDB()
+	if err != nil {
+		panic("Failed to connect to SQL database: " + err.Error())
+	}
+
+	mongoDB, err := databases.ConnectMongoDB(config.Cfg.DB_DSN)
+	if err != nil {
+		panic("Failed to connect to MongoDB: " + err.Error())
+	}
+
 	generateRepository := repositories.NewGenerateRepository(db, databases.Rdb)
+	insertRepository := repositories.NewInsertRepository(sqlDB, mongoDB)
 
 	address := fmt.Sprintf(":%s", config.Cfg.PORT)
-	http := server.NewServer(generateRepository)
+	http := server.NewServer(generateRepository, insertRepository)
 	http.RouteInit(address)
 }

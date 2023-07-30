@@ -16,9 +16,10 @@ import (
 type Server struct {
 	echo            *echo.Echo
 	generateHandler *handlers.GenerateHandler
+	insertrHandler  *handlers.InsertHandler
 }
 
-func NewServer(generateRepository interfaces.GenerateRepository) *Server {
+func NewServer(generateRepository interfaces.GenerateRepository, insertRepository interfaces.InsertRepository) *Server {
 	e := echo.New()
 
 	loggerConfig := middleware.LoggerConfig{
@@ -38,9 +39,13 @@ func NewServer(generateRepository interfaces.GenerateRepository) *Server {
 	generateService := services.NewGenerateService(generateRepository)
 	generateHandler := handlers.NewGenerateHandler(*generateService)
 
+	insertService := services.NewInsertService(insertRepository)
+	insertHandler := handlers.NewInsertHandler(*insertService)
+
 	return &Server{
 		echo:            e,
 		generateHandler: generateHandler,
+		insertrHandler:  insertHandler,
 	}
 }
 
@@ -61,4 +66,7 @@ func (s *Server) routeConfig() {
 	generate := apis.Group("/generate")
 	generate.GET("/get-details", s.generateHandler.GetListGenerateAll)
 	generate.POST("/mockup-data", s.generateHandler.MockupData)
+
+	// insert := apis.Group("/insert")
+	// insert.POST("/", s.insertrHandler.)
 }
