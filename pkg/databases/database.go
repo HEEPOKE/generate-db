@@ -1,6 +1,7 @@
 package databases
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
@@ -8,6 +9,8 @@ import (
 
 	"github.com/HEEPOKE/generate-db/internals/domains/models"
 	"github.com/HEEPOKE/generate-db/pkg/config"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -34,6 +37,18 @@ func ConnectDatabase() (*gorm.DB, error) {
 	}
 
 	db.AutoMigrate(&models.Generate{})
+
+	return db, nil
+}
+
+func ConnectMongoDB(dbConnection string) (*mongo.Database, error) {
+	clientOptions := options.Client().ApplyURI(dbConnection)
+	client, err := mongo.Connect(context.Background(), clientOptions)
+	if err != nil {
+		return nil, fmt.Errorf("failed to connect to MongoDB: %w", err)
+	}
+
+	db := client.Database(config.Cfg.DB_NAME)
 
 	return db, nil
 }

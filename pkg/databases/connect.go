@@ -2,6 +2,9 @@ package databases
 
 import (
 	"fmt"
+	"log"
+	"os"
+	"time"
 
 	"github.com/HEEPOKE/generate-db/pkg/config"
 	"github.com/HEEPOKE/generate-db/pkg/enums"
@@ -31,8 +34,17 @@ func ConnectDB() (*gorm.DB, error) {
 		return nil, err
 	}
 
+	newLogger := logger.New(
+		log.New(os.Stdout, "\r\n", log.LstdFlags),
+		logger.Config{
+			SlowThreshold: time.Second,
+			LogLevel:      logger.Error,
+			Colorful:      true,
+		},
+	)
+
 	db, err := gorm.Open(driver, &gorm.Config{
-		Logger: logger.Default.LogMode(logger.Silent),
+		Logger: newLogger,
 	})
 	if err != nil {
 		return nil, err

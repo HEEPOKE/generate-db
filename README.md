@@ -47,3 +47,9 @@ host=localhost user=gorm password=gorm dbname=gorm port=9920 sslmode=disable Tim
 ```bash
 sqlserver://gorm:LoremIpsum86@localhost:9930?database=gorm
 ```
+
+- mongodb
+
+```bash
+mongodb://localhost:27017/your_database
+```

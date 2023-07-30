@@ -26,6 +26,7 @@ type Config struct {
 	PORT                   string
 	DB_TYPE                string
 	DB_DSN                 string
+	DB_NAME                string
 }
 
 func LoadConfig() (*Config, error) {
@@ -50,6 +51,7 @@ func LoadConfig() (*Config, error) {
 		PORT:                   os.Getenv("PORT"),
 		DB_TYPE:                os.Getenv("DB_TYPE"),
 		DB_DSN:                 os.Getenv("DB_DSN"),
+		DB_NAME:                os.Getenv("DB_NAME"),
 	}
 
 	Cfg = config
