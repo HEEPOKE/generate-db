@@ -2,3 +2,5 @@
 .redis
 main
 tmp/*
+.pre-commit-config.yaml
+.golangci.yml
