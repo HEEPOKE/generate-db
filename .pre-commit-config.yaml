@@ -3,22 +3,21 @@ repos:
     rev: v0.5.1
     hooks:
       - id: go-fmt
-      # - id: go-vet
-      #   args: ["./**/*.go"]
+      - id: go-vet
+        args: ["./**/*.go"]
       # - id: go-lint
       - id: go-imports
       - id: go-cyclo
         args: [-over=15]
-      # - id: validate-toml
-      # - id: no-go-testing
+      - id: validate-toml
+      - id: no-go-testing
       # - id: golangci-lint
       #   args: 
       #   - run  
       #   - --skip-dirs=vendor 
       #   - --disable-all
-      #   - --disable=camelcase
-      #   - --enable=misspell,gofmt,gocyclo
+      #   - --enable=misspell,gofmt,gocyclo,govet
       - id: go-critic
-      # - id: go-unit-tests
+      - id: go-unit-tests
       - id: go-build
       - id: go-mod-tidy
