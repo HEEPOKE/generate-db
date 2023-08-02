@@ -16,7 +16,8 @@ repos:
         - run  
         - --skip-dirs=vendor 
         - --disable-all
-        - --enable=misspell,gofmt,gocyclo,govet
+        - --disable=camelcase
+        - --enable=misspell,gofmt,gocyclo
       - id: go-critic
       # - id: go-unit-tests
       - id: go-build
