@@ -2,6 +2,7 @@ package utils
 
 import (
 	"math/rand"
+	"strconv"
 	"time"
 
 	"github.com/HEEPOKE/generate-db/internals/domains/models/request"
@@ -58,8 +59,9 @@ func GeneratePassword(length int) string {
 	return string(password)
 }
 
-func GenerateBool(Bool string) bool {
-	return Bool == "true"
+func GenerateBool(genLean string) bool {
+	checkBool, _ := strconv.ParseBool(genLean)
+	return checkBool
 }
 
 func GenerateWord() string {
@@ -108,13 +110,14 @@ func GenerateBatchData(size int64, key string, generateRequest *request.Generate
 		for columnName, columnOptions := range generateRequest.Columns {
 			defaultValue := columnOptions.Default
 
-			if columnOptions.AutoGenerate {
+			switch {
+			case columnOptions.AutoGenerate:
 				rowData[columnName] = GenerateRandomData(columnOptions.Types, columnOptions.Length)
-			} else if defaultValue == "true" || defaultValue == "false" && columnOptions.Types == enums.BOOL {
+			case defaultValue == "true" || (defaultValue == "false" && columnOptions.Types == enums.BOOL):
 				rowData[columnName] = GenerateBool(defaultValue)
-			} else if defaultValue != "" && columnOptions.AutoGenerate {
+			case defaultValue != "" && columnOptions.AutoGenerate:
 				rowData[columnName] = ConvertToColumnType(defaultValue, columnOptions.Types)
-			} else {
+			default:
 				rowData[columnName] = defaultValue
 			}
 		}
