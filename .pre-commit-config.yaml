@@ -11,6 +11,10 @@ repos:
       # - id: validate-toml
       # - id: no-go-testing
       - id: golangci-lint
+        # name: golangci-lint
+        # entry: golangci-lint run
+        # language: golang
+        # types: [file]
       - id: go-critic
       # - id: go-unit-tests
       - id: go-build
