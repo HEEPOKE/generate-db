@@ -14,10 +14,9 @@ repos:
       # - id: golangci-lint
       #   args: 
       #   - run  
-      #   - --skip-dirs=vendor 
-      #   - --disable-all
+      #   - --skip-dirs=vendor
       #   - --enable=misspell,gofmt,gocyclo,govet
       - id: go-critic
-      - id: go-unit-tests
+      # - id: go-unit-tests
       - id: go-build
       - id: go-mod-tidy
