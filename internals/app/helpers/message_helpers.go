@@ -16,6 +16,6 @@ func FailResponse(c echo.Context, err error, msg string, status int) error {
 	return nil
 }
 
-func SuccessResponse(c echo.Context, status int, ResponseMessage interface{}) error {
-	return c.JSON(status, ResponseMessage)
+func SuccessResponse(c echo.Context, status int, responseMessage interface{}) error {
+	return c.JSON(status, responseMessage)
 }
