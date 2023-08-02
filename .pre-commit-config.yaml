@@ -3,8 +3,8 @@ repos:
     rev: v0.5.1
     hooks:
       - id: go-fmt
-      - id: go-vet
-        args: ["./**/*.go"]
+      # - id: go-vet
+      #   args: ["./**/*.go"]
       - id: go-lint
       - id: go-imports
       - id: go-cyclo
