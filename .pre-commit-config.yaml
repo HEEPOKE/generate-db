@@ -12,12 +12,11 @@ repos:
       # - id: validate-toml
       # - id: no-go-testing
       - id: golangci-lint
-        exclude: generate-db/run
         args: 
-          - run  
-          - --skip-dirs=vendor 
-          - --disable-all
-          - --enable=misspell,gofmt,gocyclo,govet
+        - run  
+        - --skip-dirs=vendor 
+        - --disable-all
+        - --enable=misspell,gofmt,gocyclo,govet
       - id: go-critic
       # - id: go-unit-tests
       - id: go-build
