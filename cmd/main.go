@@ -20,7 +20,7 @@ import (
 // @BasePath /apis
 // @schemes http
 func main() {
-	_, err := config.LoadConfig()
+	cfg, err := config.LoadConfig()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -32,20 +32,23 @@ func main() {
 
 	databases.CheckRedis()
 
-	sqlDB, err := databases.ConnectDB()
-	if err != nil {
-		panic("Failed to connect to SQL database: " + err.Error())
+	if cfg.DB_TYPE != "" && cfg.DB_DSN != "" && cfg.DB_NAME != "" {
+		sqlDB, err := databases.ConnectDB()
+		if err != nil {
+			panic("Failed to connect to SQL database: " + err.Error())
+		}
+
+		mongoDB, err := databases.ConnectMongoDB(config.Cfg.DB_DSN)
+		if err != nil {
+			panic("Failed to connect to MongoDB: " + err.Error())
+		}
+
+		generateRepository := repositories.NewGenerateRepository(db, databases.Rdb)
+		insertRepository := repositories.NewInsertRepository(sqlDB, mongoDB)
+
+		address := fmt.Sprintf(":%s", config.Cfg.PORT)
+		http := server.NewServer(generateRepository, insertRepository)
+		http.RouteInit(address)
 	}
-
-	mongoDB, err := databases.ConnectMongoDB(config.Cfg.DB_DSN)
-	if err != nil {
-		panic("Failed to connect to MongoDB: " + err.Error())
-	}
-
-	generateRepository := repositories.NewGenerateRepository(db, databases.Rdb)
-	insertRepository := repositories.NewInsertRepository(sqlDB, mongoDB)
-
-	address := fmt.Sprintf(":%s", config.Cfg.PORT)
-	http := server.NewServer(generateRepository, insertRepository)
-	http.RouteInit(address)
+	log.Fatalf("Start : %v", err)
 }

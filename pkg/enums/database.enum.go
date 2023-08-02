@@ -1,10 +1,10 @@
 package enums
 
-type Datbase string
+type Database string
 
 const (
-	MYSQL      Datbase = "mysql"
-	POSTGRESQL Datbase = "postgresql"
-	SQLSERVER  Datbase = "sqlserver"
-	MONGO      Datbase = "mongodb"
+	MYSQL      Database = "mysql"
+	POSTGRESQL Database = "postgresql"
+	SQLSERVER  Database = "sqlserver"
+	MONGO      Database = "mongodb"
 )
