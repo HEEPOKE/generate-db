@@ -9,11 +9,10 @@ import (
 	"github.com/HEEPOKE/generate-db/internals/domains/models/request"
 	"github.com/HEEPOKE/generate-db/mocks"
 	"github.com/stretchr/testify/assert"
-	"gorm.io/gorm"
 )
 
 func TestGetGenerateAll(t *testing.T) {
-	mockRepo := new(mocks.MockGenerateRepository)
+	mockRepo := new(mocks.MockGenerateService)
 
 	service := services.NewGenerateService(mockRepo)
 
@@ -34,7 +33,7 @@ func TestGetGenerateAll(t *testing.T) {
 }
 
 func TestSaveDetailsGenerate(t *testing.T) {
-	mockRepo := new(mocks.MockGenerateRepository)
+	mockRepo := new(mocks.MockGenerateService)
 
 	service := services.NewGenerateService(mockRepo)
 
@@ -44,9 +43,6 @@ func TestSaveDetailsGenerate(t *testing.T) {
 		Table:       "Content 1",
 		Quantity:    100,
 		TimeExpired: time.Now(),
-		CreatedAt:   time.Now(),
-		UpdatedAt:   time.Now(),
-		DeletedAt:   gorm.DeletedAt{},
 	}
 
 	mockRepo.On("SaveDetailsGenerate", generate).Return(nil)
@@ -59,7 +55,7 @@ func TestSaveDetailsGenerate(t *testing.T) {
 }
 
 func TestGenerateData(t *testing.T) {
-	mockRepo := new(mocks.MockGenerateRepository)
+	mockRepo := new(mocks.MockGenerateService)
 
 	service := services.NewGenerateService(mockRepo)
 
