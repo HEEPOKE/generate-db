@@ -3,3 +3,4 @@
 main
 tmp/*
 # .pre-commit-config.yaml
+*.out

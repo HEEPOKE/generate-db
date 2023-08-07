@@ -16,6 +16,18 @@ docker create network Heepoke
 docker compose up -d && docker compose logs api --follow
 ```
 
+## Test
+
+```bash
+go test ./test/...
+```
+
+- coverage test
+
+```bash
+go test -cover ./test/...
+```
+
 ## Generate Swagger
 
 ```bash
