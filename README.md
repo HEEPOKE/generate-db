@@ -19,13 +19,13 @@ docker compose up -d && docker compose logs api --follow
 ## Test
 
 ```bash
-go test ./test/...
+go test ./test/... -v
 ```
 
 - coverage test
 
 ```bash
-go test -cover ./test/...
+go test -cover ./test/... -v
 ```
 
 ## Generate Swagger

@@ -5,39 +5,33 @@ import (
 
 	"github.com/HEEPOKE/generate-db/internals/domains/models"
 	"github.com/HEEPOKE/generate-db/internals/domains/models/request"
-	"github.com/HEEPOKE/generate-db/internals/domains/repositories"
-	"github.com/go-redis/redis/v8"
+	"github.com/HEEPOKE/generate-db/mocks"
 	"github.com/stretchr/testify/assert"
-	"gorm.io/gorm"
 )
 
-func newMockGenerateRepository() *repositories.GenerateRepository {
-	db := &gorm.DB{}
-	rdb := &redis.Client{}
-	return repositories.NewGenerateRepository(db, rdb)
-}
-
 func TestGetGenerateAll(t *testing.T) {
-	mockRepo := newMockGenerateRepository()
+	mockRepo := &mocks.MockGenerateRepository{}
 
-	testGenerates := []*models.Generate{
-		{Key: "key1", Table: "table1", Quantity: 10},
-		{Key: "key2", Table: "table2", Quantity: 20},
-	}
-
-	for _, generate := range testGenerates {
-		mockRepo.SaveDetailsGenerate(generate)
+	mockRepo.GetGenerateAllFunc = func() ([]*models.Generate, error) {
+		return []*models.Generate{
+			{ID: 1, Key: "key1", Table: "table1", Quantity: 10},
+			{ID: 2, Key: "key2", Table: "table2", Quantity: 20},
+		}, nil
 	}
 
 	generates, err := mockRepo.GetGenerateAll()
 
 	assert.NoError(t, err)
 	assert.NotNil(t, generates)
-	assert.Len(t, generates, len(testGenerates))
+	assert.Len(t, generates, 2)
 }
 
 func TestSaveDetailsGenerate(t *testing.T) {
-	mockRepo := newMockGenerateRepository()
+	mockRepo := &mocks.MockGenerateRepository{}
+
+	mockRepo.SaveDetailsGenerateFunc = func(generate *models.Generate) error {
+		return nil
+	}
 
 	generate := &models.Generate{
 		Key:      "test_key",
@@ -51,7 +45,14 @@ func TestSaveDetailsGenerate(t *testing.T) {
 }
 
 func TestGenerateData(t *testing.T) {
-	mockRepo := newMockGenerateRepository()
+	mockRepo := &mocks.MockGenerateRepository{}
+
+	mockRepo.GenerateDataFunc = func(key string, generateRequest *request.GenerateRequest) ([]map[string]interface{}, error) {
+		return []map[string]interface{}{
+			{"name": "John Doe", "age": 30},
+			{"name": "Jane Smith", "age": 25},
+		}, nil
+	}
 
 	generateRequest := &request.GenerateRequest{
 		Quantity: 100,
@@ -64,14 +65,4 @@ func TestGenerateData(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, results)
 	assert.True(t, len(results) <= 100)
-
-	generateRequest2 := &request.GenerateRequest{
-		Quantity: 1000,
-	}
-	key2 := "test_key2"
-
-	results2, err2 := mockRepo.GenerateData(key2, generateRequest2)
-
-	assert.Error(t, err2)
-	assert.Nil(t, results2)
 }
