@@ -1,0 +1,7 @@
+.env.example
+.pre-commit-config.yaml
+.gitignore
+.vscode
+README.md
+./test
+./mocks
