@@ -5,7 +5,7 @@ import (
 
 	"github.com/HEEPOKE/generate-db/internals/domains/models"
 	"github.com/HEEPOKE/generate-db/internals/domains/models/request"
-	"github.com/HEEPOKE/generate-db/mocks"
+	"github.com/HEEPOKE/generate-db/pkg/mocks"
 	"github.com/stretchr/testify/assert"
 )
 
