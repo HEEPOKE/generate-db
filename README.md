@@ -16,6 +16,12 @@ docker create network Heepoke
 docker compose up -d && docker compose logs api --follow
 ```
 
+## Create DB For test
+
+```bash
+docker compose -f db-test.yml up -d && docker compose -f db-test.yml logs --follow
+```
+
 ## Test
 
 ```bash
@@ -63,5 +69,5 @@ sqlserver://gorm:LoremIpsum86@localhost:9930?database=gorm
 - mongodb
 
 ```bash
-mongodb://localhost:27017/your_database
+mongodb://test:test@localhost:27017/mongo-db-test
 ```

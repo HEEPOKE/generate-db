@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+  postgres-db-test:
+    image: postgres:latest
+    container_name: postgres-test
+    ports:
+      - "5434:5434"
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: test
+  mysql-db-test:
+    image: mysql:latest
+    container_name: mysql-db-test
+    environment:
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_DATABASE: test
+      MYSQL_USER: usertest
+      MYSQL_PASSWORD: test
+    ports:
+      - "3306:3306"
+  mongo-db-test:
+    image: mongo:latest
+    container_name: mongo-db-test
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: test
+      MONGO_INITDB_ROOT_PASSWORD: test
