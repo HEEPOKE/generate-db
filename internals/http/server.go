@@ -59,6 +59,13 @@ func (s *Server) RouteInit(address string) {
 }
 
 func (s *Server) routeConfig() {
+	s.echo.GET("/", func(c echo.Context) error {
+		response := map[string]string{
+			"message": "HEEPOKE",
+		}
+		return c.JSON(http.StatusOK, response)
+	})
+
 	apis := s.echo.Group("/apis")
 
 	apis.GET("/docs/*", echoSwagger.WrapHandler)

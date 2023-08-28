@@ -51,13 +51,13 @@ http://localhost:6476/apis/docs/index.html
 - mysql
 
 ```bash
-user:pass@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True&loc=Local
+usertest:test@tcp(localhost:3306)/test?charset=utf8mb4&parseTime=true&loc=Local
 ```
 
 - postgresql
 
 ```bash
-host=localhost user=gorm password=gorm dbname=gorm port=9920 sslmode=disable TimeZone=Asia/Shanghai
+user=test password=test dbname=test host=localhost port=5434 sslmode=disable TimeZone=Asia/Bangkok
 ```
 
 - sqlserver
@@ -69,5 +69,5 @@ sqlserver://gorm:LoremIpsum86@localhost:9930?database=gorm
 - mongodb
 
 ```bash
-mongodb://test:test@localhost:27017/mongo-db-test
+mongodb://test:test@localhost:27017/test
 ```
