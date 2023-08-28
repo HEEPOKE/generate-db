@@ -1,17 +1,19 @@
 version: "3.9"
 services:
-  postgres-db-test:
+  db-postgres-test:
     image: postgres:latest
-    container_name: postgres-test
+    container_name: db-postgres-test
     ports:
       - "5434:5434"
     environment:
       POSTGRES_USER: test
       POSTGRES_PASSWORD: test
       POSTGRES_DB: test
-  mysql-db-test:
+    networks:
+      - Heepoke
+  db-mysql-test:
     image: mysql:latest
-    container_name: mysql-db-test
+    container_name: db-mysql-test
     environment:
       MYSQL_ROOT_PASSWORD: test
       MYSQL_DATABASE: test
@@ -19,11 +21,19 @@ services:
       MYSQL_PASSWORD: test
     ports:
       - "3306:3306"
-  mongo-db-test:
+    networks:
+      - Heepoke
+  db-mongo-test:
     image: mongo:latest
-    container_name: mongo-db-test
+    container_name: db-mongo-test
     ports:
       - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: test
       MONGO_INITDB_ROOT_PASSWORD: test
+    networks:
+      - Heepoke
+
+networks:
+  Heepoke:
+    driver: bridge

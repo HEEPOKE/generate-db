@@ -3,11 +3,15 @@ package main
 import (
 	"fmt"
 	"log"
+	"strings"
 
 	"github.com/HEEPOKE/generate-db/internals/domains/repositories"
 	server "github.com/HEEPOKE/generate-db/internals/http"
 	"github.com/HEEPOKE/generate-db/pkg/config"
 	"github.com/HEEPOKE/generate-db/pkg/databases"
+	"github.com/HEEPOKE/generate-db/pkg/enums"
+	"go.mongodb.org/mongo-driver/mongo"
+	"gorm.io/gorm"
 )
 
 // @title Generate Mock-up API
@@ -32,23 +36,33 @@ func main() {
 
 	databases.CheckRedis()
 
-	if cfg.DB_TYPE != "" && cfg.DB_DSN != "" && cfg.DB_NAME != "" {
-		sqlDB, err := databases.ConnectDB()
-		if err != nil {
-			panic("Failed to connect to SQL database: " + err.Error())
-		}
-
-		mongoDB, err := databases.ConnectMongoDB(config.Cfg.DB_DSN)
-		if err != nil {
-			panic("Failed to connect to MongoDB: " + err.Error())
-		}
-
-		generateRepository := repositories.NewGenerateRepository(db, databases.Rdb)
-		insertRepository := repositories.NewInsertRepository(sqlDB, mongoDB)
-
-		address := fmt.Sprintf(":%s", config.Cfg.PORT)
-		http := server.NewServer(generateRepository, insertRepository)
-		http.RouteInit(address)
+	if cfg.DB_TYPE == "" || cfg.DB_DSN == "" || cfg.DB_NAME == "" {
+		log.Fatal("DB_TYPE, DB_DSN, and DB_NAME must be provided")
 	}
-	log.Fatalf("Start : %v", err)
+
+	var sqlDB *gorm.DB
+	var mongoDB *mongo.Database
+
+	if cfg.DB_TYPE != string(enums.MONGO) {
+		sqlDB, err = databases.ConnectDB()
+		if err != nil {
+			log.Fatalf("Failed to connect to SQL database: %v", err)
+		}
+	} else {
+		if strings.HasPrefix(cfg.DB_DSN, "mongodb://") || strings.HasPrefix(cfg.DB_DSN, "mongodb+srv://") {
+			mongoDB, err = databases.ConnectMongoDB(cfg.DB_DSN)
+			if err != nil {
+				log.Fatalf("Failed to connect to MongoDB: %v", err)
+			}
+		} else {
+			log.Fatal("Invalid MongoDB connection string. Scheme must be 'mongodb' or 'mongodb+srv'")
+		}
+	}
+
+	generateRepository := repositories.NewGenerateRepository(db, databases.Rdb)
+	insertRepository := repositories.NewInsertRepository(sqlDB, mongoDB)
+
+	address := fmt.Sprintf(":%s", config.Cfg.PORT)
+	http := server.NewServer(generateRepository, insertRepository)
+	http.RouteInit(address)
 }

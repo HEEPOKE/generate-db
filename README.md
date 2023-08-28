@@ -9,7 +9,7 @@ cp .env.example .env
 ## Step Build Docker && Run
 
 ```bash
-docker create network Heepoke
+docker network create Heepoke
 ```
 
 ```bash
@@ -57,7 +57,7 @@ usertest:test@tcp(localhost:3306)/test?charset=utf8mb4&parseTime=true&loc=Local
 - postgresql
 
 ```bash
-user=test password=test dbname=test host=localhost port=5434 sslmode=disable TimeZone=Asia/Bangkok
+host=db-postgres-test user=test dbname=test password=test sslmode=disable TimeZone=Asia/Bangkok
 ```
 
 - sqlserver
