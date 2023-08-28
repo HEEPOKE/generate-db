@@ -2,10 +2,8 @@ package databases
 
 import (
 	"fmt"
-	"log"
-	"os"
-	"time"
 
+	"github.com/HEEPOKE/generate-db/internals/core/utils"
 	"github.com/HEEPOKE/generate-db/pkg/config"
 	"github.com/HEEPOKE/generate-db/pkg/enums"
 	"gorm.io/driver/mysql"
@@ -16,16 +14,18 @@ import (
 )
 
 func getDriver(dbType string) (gorm.Dialector, error) {
+	var dialector gorm.Dialector
 	switch dbType {
 	case string(enums.POSTGRESQL):
-		return postgres.Open(config.Cfg.DB_DSN), nil
+		dialector = postgres.Open(config.Cfg.DB_DSN)
 	case string(enums.MYSQL):
-		return mysql.Open(config.Cfg.DB_DSN), nil
+		dialector = mysql.Open(config.Cfg.DB_DSN)
 	case string(enums.SQLSERVER):
-		return sqlserver.Open(config.Cfg.DB_DSN), nil
+		dialector = sqlserver.Open(config.Cfg.DB_DSN)
 	default:
 		return nil, fmt.Errorf("unsupported DB_TYPE specified: %s", dbType)
 	}
+	return dialector, nil
 }
 
 func ConnectDB() (*gorm.DB, error) {
@@ -34,14 +34,7 @@ func ConnectDB() (*gorm.DB, error) {
 		return nil, err
 	}
 
-	newLogger := logger.New(
-		log.New(os.Stdout, "\r\n", log.LstdFlags),
-		logger.Config{
-			SlowThreshold: time.Second,
-			LogLevel:      logger.Error,
-			Colorful:      true,
-		},
-	)
+	newLogger := utils.ConfigureLoggerDB(logger.Error)
 
 	db, err := gorm.Open(driver, &gorm.Config{
 		Logger: newLogger,
