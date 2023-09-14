@@ -16,7 +16,7 @@ import (
 type Server struct {
 	echo            *echo.Echo
 	generateHandler *handlers.GenerateHandler
-	insertrHandler  *handlers.InsertHandler
+	insertHandler   *handlers.InsertHandler
 }
 
 func NewServer(generateRepository interfaces.GenerateRepository, insertRepository interfaces.InsertRepository) *Server {
@@ -45,7 +45,7 @@ func NewServer(generateRepository interfaces.GenerateRepository, insertRepositor
 	return &Server{
 		echo:            e,
 		generateHandler: generateHandler,
-		insertrHandler:  insertHandler,
+		insertHandler:   insertHandler,
 	}
 }
 
@@ -75,5 +75,5 @@ func (s *Server) routeConfig() {
 	generate.POST("/mockup-data", s.generateHandler.MockupData)
 
 	// insert := apis.Group("/insert")
-	// insert.POST("/", s.insertrHandler.)
+	// insert.POST("/", s.insertHandler.)
 }
