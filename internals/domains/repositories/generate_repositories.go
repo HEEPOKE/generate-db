@@ -37,15 +37,9 @@ func (g *GenerateRepository) SaveDetailsGenerate(generate *models.Generate) erro
 
 func (g *GenerateRepository) GenerateData(key string, generateRequest *request.GenerateRequest) ([]map[string]interface{}, error) {
 	quantity := int64(generateRequest.Quantity)
-
 	results := utils.GenerateBatchData(int64(quantity), key, generateRequest)
-	fileNumber, _ := utils.FindNextFileNumber(key)
 
-	if fileNumber == 0 {
-		fileNumber = 1
-	}
-
-	err := utils.CreateJSONFile(results, key, quantity, fileNumber)
+	err := utils.CreateJSONFile(results, quantity, generateRequest.Table, key)
 	if err != nil {
 		log.Printf("เกิดข้อผิดพลาดในการสร้างไฟล์ JSON: %v", err)
 		return nil, err

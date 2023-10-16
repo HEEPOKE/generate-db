@@ -4,3 +4,4 @@ main
 tmp/*
 # .pre-commit-config.yaml
 *.out
+data/**/*.json
