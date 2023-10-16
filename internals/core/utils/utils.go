@@ -3,9 +3,11 @@ package utils
 import (
 	"crypto/rand"
 	"encoding/base64"
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func GenerateRandomKey() (string, error) {
@@ -27,7 +29,10 @@ func GenerateRandomKey() (string, error) {
 }
 
 func FindNextFileNumber(key string) (int, error) {
-	dirPath := "./data/"
+	currentTime := time.Now()
+	formattedTime := currentTime.Format("02-01-2006")
+	dirPath := fmt.Sprintf("../../../data/%s_%s/", formattedTime, key)
+
 	files, err := os.ReadDir(dirPath)
 	if err != nil {
 		return 0, err

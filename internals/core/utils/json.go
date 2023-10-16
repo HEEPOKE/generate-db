@@ -12,13 +12,14 @@ func CreateJSONFile(data interface{}, key string, size int64, fileNumber int) er
 	currentTime := time.Now()
 	formattedTime := currentTime.Format("02-01-2006")
 
-	filePath := fmt.Sprintf("./data/%s_%s/%d_%d.json", formattedTime, key, fileNumber, size)
+	dirPath := fmt.Sprintf("../../../data/%s_%s/", formattedTime, key)
 
-	jsonData, err := json.Marshal(data)
-	if err != nil {
-		log.Printf("เกิดข้อผิดพลาดในการแปลงข้อมูลเป็น JSON: %v", err)
+	if err := os.MkdirAll(dirPath, 0755); err != nil {
+		log.Printf("Failed to create directory: %v", err)
 		return err
 	}
+
+	filePath := fmt.Sprintf("%s/%d_%d.json", dirPath, fileNumber, size)
 
 	file, err := os.Create(filePath)
 	if err != nil {
@@ -26,6 +27,12 @@ func CreateJSONFile(data interface{}, key string, size int64, fileNumber int) er
 		return err
 	}
 	defer file.Close()
+
+	jsonData, err := json.Marshal(data)
+	if err != nil {
+		log.Printf("เกิดข้อผิดพลาดในการแปลงข้อมูลเป็น JSON: %v", err)
+		return err
+	}
 
 	_, err = file.Write(jsonData)
 	if err != nil {

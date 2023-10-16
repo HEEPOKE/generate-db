@@ -3,6 +3,7 @@ package utils
 import (
 	"math/rand"
 	"strconv"
+	"sync"
 	"time"
 
 	"github.com/HEEPOKE/generate-db/internals/domains/models/request"
@@ -46,7 +47,6 @@ func GeneratePassword(length int) string {
 	validChars += config.UppercaseLetters
 	validChars += config.LowercaseLetters
 	validChars += config.Numbers
-	validChars += config.SpecialChars
 
 	source := rand.NewSource(time.Now().UnixNano())
 	random := rand.New(source)
@@ -103,27 +103,38 @@ func GenerateRandomData(dataType enums.Category, length int) interface{} {
 
 func GenerateBatchData(size int64, key string, generateRequest *request.GenerateRequest) []map[string]interface{} {
 	results := make([]map[string]interface{}, size)
+	var wg sync.WaitGroup
+	var mu sync.Mutex
 
 	for j := int64(0); j < size; j++ {
-		rowData := make(map[string]interface{})
+		wg.Add(1)
+		go func(index int64) {
+			defer wg.Done()
 
-		for columnName, columnOptions := range generateRequest.Columns {
-			defaultValue := columnOptions.Default
+			rowData := make(map[string]interface{})
 
-			switch {
-			case columnOptions.AutoGenerate:
-				rowData[columnName] = GenerateRandomData(columnOptions.Types, columnOptions.Length)
-			case defaultValue == "true" || (defaultValue == "false" && columnOptions.Types == enums.BOOL):
-				rowData[columnName] = GenerateBool(defaultValue)
-			case defaultValue != "" && columnOptions.AutoGenerate:
-				rowData[columnName] = ConvertToColumnType(defaultValue, columnOptions.Types)
-			default:
-				rowData[columnName] = defaultValue
+			for columnName, columnOptions := range generateRequest.Columns {
+				defaultValue := columnOptions.Default
+
+				switch {
+				case columnOptions.AutoGenerate:
+					rowData[columnName] = GenerateRandomData(columnOptions.Types, columnOptions.Length)
+				case defaultValue == "true" || (defaultValue == "false" && columnOptions.Types == enums.BOOL):
+					rowData[columnName] = GenerateBool(defaultValue)
+				case defaultValue != "" && columnOptions.AutoGenerate:
+					rowData[columnName] = ConvertToColumnType(defaultValue, columnOptions.Types)
+				default:
+					rowData[columnName] = defaultValue
+				}
 			}
-		}
 
-		results[j] = rowData
+			mu.Lock()
+			results[index] = rowData
+			mu.Unlock()
+		}(j)
 	}
+
+	wg.Wait()
 
 	return results
 }

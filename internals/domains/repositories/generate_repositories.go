@@ -37,42 +37,18 @@ func (g *GenerateRepository) SaveDetailsGenerate(generate *models.Generate) erro
 
 func (g *GenerateRepository) GenerateData(key string, generateRequest *request.GenerateRequest) ([]map[string]interface{}, error) {
 	quantity := int64(generateRequest.Quantity)
-	batchSize := int64(10000)
 
-	numBatches := (quantity + batchSize - 1) / batchSize
+	results := utils.GenerateBatchData(int64(quantity), key, generateRequest)
+	fileNumber, _ := utils.FindNextFileNumber(key)
 
-	resultChan := make(chan []map[string]interface{}, numBatches)
-
-	for i := int64(0); i < numBatches; i++ {
-		batchSizeRemaining := quantity - i*batchSize
-		batchSizeToGenerate := batchSizeRemaining
-		if batchSizeRemaining > batchSize {
-			batchSizeToGenerate = batchSize
-		}
-
-		go func(size int64) {
-			results := utils.GenerateBatchData(size, key, generateRequest)
-			resultChan <- results
-		}(batchSizeToGenerate)
+	if fileNumber == 0 {
+		fileNumber = 1
 	}
 
-	var results []map[string]interface{}
-	for range resultChan {
-		batchResults := <-resultChan
-		results = append(results, batchResults...)
-	}
-
-	fileNumber, err := utils.FindNextFileNumber(key)
-	if err != nil {
-		log.Printf("เกิดข้อผิดพลาดในการหาลำดับของไฟล์ JSON: %v", err)
-		return nil, err
-	}
-
-	err = utils.CreateJSONFile(results, key, quantity, fileNumber)
+	err := utils.CreateJSONFile(results, key, quantity, fileNumber)
 	if err != nil {
 		log.Printf("เกิดข้อผิดพลาดในการสร้างไฟล์ JSON: %v", err)
 		return nil, err
 	}
-
 	return results, nil
 }
