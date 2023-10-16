@@ -5,11 +5,10 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"time"
 )
 
 func CreateJSONFile(data interface{}, size int64, table, key string) error {
-	currentTime := time.Now()
+	currentTime := GetTimeNowThai()
 	formattedTime := currentTime.Format("02-01-2006")
 
 	dirPath := fmt.Sprintf("data/%s/", formattedTime)

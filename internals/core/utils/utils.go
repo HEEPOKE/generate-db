@@ -3,6 +3,7 @@ package utils
 import (
 	"crypto/rand"
 	"encoding/base64"
+	"time"
 )
 
 func GenerateRandomKey() (string, error) {
@@ -21,4 +22,11 @@ func GenerateRandomKey() (string, error) {
 	key = key[:keyLength]
 
 	return key, nil
+}
+
+func GetTimeNowThai() time.Time {
+	bangkokOffset := 7 * 60 * 60
+	currentTime := time.Now().UTC().Add(time.Second * time.Duration(bangkokOffset))
+
+	return currentTime
 }

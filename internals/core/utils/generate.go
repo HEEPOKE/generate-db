@@ -4,7 +4,6 @@ import (
 	"math/rand"
 	"strconv"
 	"sync"
-	"time"
 
 	"github.com/HEEPOKE/generate-db/internals/domains/models/request"
 	"github.com/HEEPOKE/generate-db/pkg/config"
@@ -48,7 +47,7 @@ func GeneratePassword(length int) string {
 	validChars += config.LowercaseLetters
 	validChars += config.Numbers
 
-	source := rand.NewSource(time.Now().UnixNano())
+	source := rand.NewSource(GetTimeNowThai().UnixNano())
 	random := rand.New(source)
 
 	password := make([]byte, length)

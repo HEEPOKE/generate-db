@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/HEEPOKE/generate-db/internals/app/services"
+	"github.com/HEEPOKE/generate-db/internals/core/utils"
 	"github.com/HEEPOKE/generate-db/internals/domains/models"
 	"github.com/HEEPOKE/generate-db/internals/domains/models/request"
 	"github.com/HEEPOKE/generate-db/pkg/mocks"
@@ -17,8 +18,8 @@ func TestGetGenerateAll(t *testing.T) {
 	service := services.NewGenerateService(mockRepo)
 
 	expectedData := []*models.Generate{
-		{ID: 1, Key: "Generate 1", Table: "Content 1", Quantity: 100, TimeExpired: time.Now()},
-		{ID: 2, Key: "Generate 2", Table: "Content 2", Quantity: 200, TimeExpired: time.Now()},
+		{ID: 1, Key: "Generate 1", Table: "Content 1", Quantity: 100, TimeExpired: utils.GetTimeNowThai().Add(24 * time.Hour)},
+		{ID: 2, Key: "Generate 2", Table: "Content 2", Quantity: 200, TimeExpired: utils.GetTimeNowThai().Add(24 * time.Hour)},
 	}
 
 	mockRepo.On("GetGenerateAll").Return(expectedData, nil)

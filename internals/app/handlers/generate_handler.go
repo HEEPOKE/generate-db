@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/HEEPOKE/generate-db/internals/app/helpers"
 	"github.com/HEEPOKE/generate-db/internals/app/services"
@@ -74,9 +75,10 @@ func (gh *GenerateHandler) MockupData(c echo.Context) error {
 	}
 
 	generateData := models.Generate{
-		Key:      key,
-		Table:    req.Table,
-		Quantity: req.Quantity,
+		Key:         key,
+		Table:       req.Table,
+		Quantity:    req.Quantity,
+		TimeExpired: utils.GetTimeNowThai().Add(24 * time.Hour),
 	}
 
 	err = gh.generateService.SaveDetailsGenerate(&generateData)
