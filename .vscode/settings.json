@@ -1,14 +1,23 @@
 {
   "cSpell.words": [
+    "เกิดข้อผิดพลาดในการเขียนข้อมูลลงไฟล์",
+    "เกิดข้อผิดพลาดในการแปลงข้อมูลเป็น",
+    "เกิดข้อผิดพลาดในการสร้างไฟล์",
+    "เกิดข้อผิดพลาดในการหาลำดับของไฟล์",
     "brianvoe",
     "DATETIME",
+    "FIRSTNAME",
     "godotenv",
     "gofakeit",
+    "gorm",
     "HEEPOKE",
     "joho",
     "labstack",
+    "LASTNAME",
     "phpmyadmin",
+    "sqlserver",
     "swaggo",
+    "usertest",
     "VARCHAR"
   ]
 }
