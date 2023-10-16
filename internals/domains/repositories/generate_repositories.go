@@ -1,7 +1,7 @@
 package repositories
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/HEEPOKE/generate-db/internals/core/utils"
 	"github.com/HEEPOKE/generate-db/internals/domains/models"
@@ -64,12 +64,14 @@ func (g *GenerateRepository) GenerateData(key string, generateRequest *request.G
 
 	fileNumber, err := utils.FindNextFileNumber(key)
 	if err != nil {
-		return nil, fmt.Errorf("เกิดข้อผิดพลาดในการหาลำดับของไฟล์ JSON: %w", err)
+		log.Printf("เกิดข้อผิดพลาดในการหาลำดับของไฟล์ JSON: %v", err)
+		return nil, err
 	}
 
 	err = utils.CreateJSONFile(results, key, quantity, fileNumber)
 	if err != nil {
-		return nil, fmt.Errorf("เกิดข้อผิดพลาดในการสร้างไฟล์ JSON: %w", err)
+		log.Printf("เกิดข้อผิดพลาดในการสร้างไฟล์ JSON: %v", err)
+		return nil, err
 	}
 
 	return results, nil

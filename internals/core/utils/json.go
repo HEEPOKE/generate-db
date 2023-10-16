@@ -3,6 +3,7 @@ package utils
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"os"
 	"time"
 )
@@ -15,18 +16,21 @@ func CreateJSONFile(data interface{}, key string, size int64, fileNumber int) er
 
 	jsonData, err := json.Marshal(data)
 	if err != nil {
-		return fmt.Errorf("เกิดข้อผิดพลาดในการแปลงข้อมูลเป็น JSON: %w", err)
+		log.Printf("เกิดข้อผิดพลาดในการแปลงข้อมูลเป็น JSON: %v", err)
+		return err
 	}
 
 	file, err := os.Create(filePath)
 	if err != nil {
-		return fmt.Errorf("เกิดข้อผิดพลาดในการสร้างไฟล์: %w", err)
+		log.Printf("เกิดข้อผิดพลาดในการสร้างไฟล์: %v", err)
+		return err
 	}
 	defer file.Close()
 
 	_, err = file.Write(jsonData)
 	if err != nil {
-		return fmt.Errorf("เกิดข้อผิดพลาดในการเขียนข้อมูลลงไฟล์: %w", err)
+		log.Printf("เกิดข้อผิดพลาดในการเขียนข้อมูลลงไฟล์: %v", err)
+		return err
 	}
 
 	return nil

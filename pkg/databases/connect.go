@@ -2,6 +2,7 @@ package databases
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/HEEPOKE/generate-db/internals/core/utils"
 	"github.com/HEEPOKE/generate-db/pkg/config"
@@ -23,6 +24,7 @@ func getDriver(dbType string) (gorm.Dialector, error) {
 	case string(enums.SQLSERVER):
 		dialector = sqlserver.Open(config.Cfg.DB_DSN)
 	default:
+		log.Printf("unsupported DB_TYPE specified: %v", dbType)
 		return nil, fmt.Errorf("unsupported DB_TYPE specified: %s", dbType)
 	}
 	return dialector, nil

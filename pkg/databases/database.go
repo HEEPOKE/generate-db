@@ -45,6 +45,7 @@ func ConnectMongoDB(dbConnection string) (*mongo.Database, error) {
 	clientOptions := options.Client().ApplyURI(dbConnection)
 	client, err := mongo.Connect(context.Background(), clientOptions)
 	if err != nil {
+		log.Printf("failed to connect to MongoDB: %v", err)
 		return nil, fmt.Errorf("failed to connect to MongoDB: %w", err)
 	}
 
