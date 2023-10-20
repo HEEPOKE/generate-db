@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"github.com/HEEPOKE/generate-db/pkg/enums"
 	"go.mongodb.org/mongo-driver/mongo"
 	"gorm.io/gorm"
 )
@@ -15,4 +16,13 @@ func NewInsertRepository(conn *gorm.DB, mongoDB *mongo.Database) *InsertReposito
 		conn:    conn,
 		mongoDB: mongoDB,
 	}
+}
+
+func (i *InsertRepository) InsertDataBase(typeDatabase enums.Database) error {
+	if typeDatabase == enums.MONGO {
+
+	} else {
+
+	}
+	return
 }
