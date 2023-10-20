@@ -19,11 +19,11 @@ type Server struct {
 	insertHandler   *handlers.InsertHandler
 }
 
-func NewServer(generateRepository interfaces.GenerateRepository, insertRepository interfaces.InsertRepository) *Server {
+func NewServer(generateRepository interfaces.GenerateRepository, insertRepository interfaces.InsertRepository, utilitiesRepository interfaces.UtilitiesRepository) *Server {
 	e := echo.New()
 
 	loggerConfig := middleware.LoggerConfig{
-		Format:           "URI::${uri}\n, METHOD::${method},  STATUS::${status}, HEADER::${header}\n, QUERY::${query}\n, ERROR::${error}\n",
+		Format:           "URI::${uri}, METHOD::${method},  STATUS::${status}, HEADER::${header}, QUERY::${query}, ERROR::${error}",
 		CustomTimeFormat: "2006-01-02 15:04:05.00000",
 	}
 
@@ -41,6 +41,8 @@ func NewServer(generateRepository interfaces.GenerateRepository, insertRepositor
 
 	insertService := services.NewInsertService(insertRepository)
 	insertHandler := handlers.NewInsertHandler(*insertService)
+
+	utilitiesService := services.NewUtilitiesService()
 
 	return &Server{
 		echo:            e,
