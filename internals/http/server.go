@@ -14,9 +14,10 @@ import (
 )
 
 type Server struct {
-	echo            *echo.Echo
-	generateHandler *handlers.GenerateHandler
-	insertHandler   *handlers.InsertHandler
+	echo             *echo.Echo
+	generateHandler  *handlers.GenerateHandler
+	insertHandler    *handlers.InsertHandler
+	utilitiesHandler *handlers.UtilitiesHandler
 }
 
 func NewServer(generateRepository interfaces.GenerateRepository, insertRepository interfaces.InsertRepository, utilitiesRepository interfaces.UtilitiesRepository) *Server {
@@ -42,12 +43,14 @@ func NewServer(generateRepository interfaces.GenerateRepository, insertRepositor
 	insertService := services.NewInsertService(insertRepository)
 	insertHandler := handlers.NewInsertHandler(*insertService)
 
-	utilitiesService := services.NewUtilitiesService()
+	utilitiesService := services.NewUtilitiesService(generateService)
+	utilitiesHandler := handlers.NewUtilitiesHandler(*utilitiesService)
 
 	return &Server{
-		echo:            e,
-		generateHandler: generateHandler,
-		insertHandler:   insertHandler,
+		echo:             e,
+		generateHandler:  generateHandler,
+		insertHandler:    insertHandler,
+		utilitiesHandler: utilitiesHandler,
 	}
 }
 
