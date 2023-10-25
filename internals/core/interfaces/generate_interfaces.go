@@ -8,5 +8,5 @@ import (
 type GenerateRepository interface {
 	GetGenerateAll() ([]*models.Generate, error)
 	SaveDetailsGenerate(generate *models.Generate) error
-	GenerateData(key string, generateRequest *request.GenerateRequest) ([]map[string]interface{}, error)
+	GenerateData(data models.Generate, generateRequest *request.GenerateRequest) (models.JsonStructure, error)
 }

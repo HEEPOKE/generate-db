@@ -6,7 +6,6 @@ import (
 
 	"github.com/HEEPOKE/generate-db/internals/app/helpers"
 	"github.com/HEEPOKE/generate-db/internals/app/services"
-	"github.com/HEEPOKE/generate-db/internals/core/cache"
 	"github.com/HEEPOKE/generate-db/internals/core/utils"
 	"github.com/HEEPOKE/generate-db/internals/domains/models"
 	"github.com/HEEPOKE/generate-db/internals/domains/models/request"
@@ -91,12 +90,10 @@ func (gh *GenerateHandler) MockupData(c echo.Context) error {
 		return helpers.FailResponse(c, err, constants.ERR_SAVE_DETAILS_GENERATE, http.StatusInternalServerError)
 	}
 
-	result, err := gh.generateService.GenerateData(key, &req)
+	result, err := gh.generateService.GenerateData(generateData, &req)
 	if err != nil {
 		return helpers.FailResponse(c, err, constants.ERR_GENERATE_DATA, http.StatusInternalServerError)
 	}
-
-	cache.SetKey(key, result)
 
 	status := response.StatusMessage{
 		Code:        constants.STATUS_CREATED,

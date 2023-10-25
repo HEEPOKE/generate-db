@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"log"
 	"os"
+
+	"github.com/HEEPOKE/generate-db/internals/domains/models"
 )
 
-func CreateJSONFile(data interface{}, size int64, table, key string) error {
+func CreateJSONFile(data models.JsonStructure, details models.Generate) error {
 	currentTime := GetTimeNowThai()
 	formattedTime := currentTime.Format("02-01-2006")
 
@@ -21,7 +23,7 @@ func CreateJSONFile(data interface{}, size int64, table, key string) error {
 		}
 	}
 
-	filePath := fmt.Sprintf("%s%s_%s_%d.json", dirPath, table, key, size)
+	filePath := fmt.Sprintf("%s%s_%s_%d.json", dirPath, details.Table, details.Key, details.Quantity)
 
 	file, err := os.Create(filePath)
 	if err != nil {

@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"encoding/json"
 	"log"
 
 	"github.com/HEEPOKE/generate-db/internals/core/cache"
@@ -33,19 +34,22 @@ func (g *GenerateRepository) SaveDetailsGenerate(generate *models.Generate) erro
 	return g.db.Create(generate).Error
 }
 
-func (g *GenerateRepository) GenerateData(key string, generateRequest *request.GenerateRequest) ([]map[string]interface{}, error) {
-	quantity := int64(generateRequest.Quantity)
-	results := utils.GenerateBatchData(int64(quantity), key, generateRequest)
+func (g *GenerateRepository) GenerateData(data models.Generate, generateRequest *request.GenerateRequest) (models.JsonStructure, error) {
+	results := utils.GenerateBatchData(data.Key, generateRequest)
 
-	err := cache.SetKey(key, results)
+	jsonData, err := json.Marshal(data)
 	if err != nil {
-		return nil, err
+		return models.JsonStructure{}, nil
 	}
 
-	err = utils.CreateJSONFile(results, quantity, generateRequest.Table, key)
-	if err != nil {
-		log.Printf("เกิดข้อผิดพลาดในการสร้างไฟล์ JSON: %v", err)
-		return nil, err
+	if err := cache.SetKey(data.Key, jsonData); err != nil {
+		return models.JsonStructure{}, err
 	}
+
+	if err := utils.CreateJSONFile(results, data); err != nil {
+		log.Printf("Error creating JSON file: %v", err)
+		return models.JsonStructure{}, err
+	}
+
 	return results, nil
 }

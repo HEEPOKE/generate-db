@@ -4,11 +4,10 @@ import (
 	"context"
 	"time"
 
-	"github.com/HEEPOKE/generate-db/internals/domains/models"
 	"github.com/HEEPOKE/generate-db/pkg/databases"
 )
 
-func SetKey(key string, value models.JsonStructure) error {
+func SetKey(key string, value []byte) error {
 	client := databases.ConnectToRedis()
 	expiration := 24 * time.Hour
 	return client.Set(context.Background(), key, value, expiration).Err()

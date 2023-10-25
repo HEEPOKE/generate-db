@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"sync"
 
+	"github.com/HEEPOKE/generate-db/internals/domains/models"
 	"github.com/HEEPOKE/generate-db/internals/domains/models/request"
 	"github.com/HEEPOKE/generate-db/pkg/config"
 	"github.com/HEEPOKE/generate-db/pkg/enums"
@@ -100,12 +101,12 @@ func GenerateRandomData(dataType enums.Category, length int) interface{} {
 	}
 }
 
-func GenerateBatchData(size int64, key string, generateRequest *request.GenerateRequest) []map[string]interface{} {
-	results := make([]map[string]interface{}, size)
+func GenerateBatchData(key string, generateRequest *request.GenerateRequest) models.JsonStructure {
+	results := make([]map[string]interface{}, generateRequest.Quantity)
 	var wg sync.WaitGroup
 	var mu sync.Mutex
 
-	for j := int64(0); j < size; j++ {
+	for j := int64(0); j < generateRequest.Quantity; j++ {
 		wg.Add(1)
 		go func(index int64) {
 			defer wg.Done()
@@ -135,5 +136,12 @@ func GenerateBatchData(size int64, key string, generateRequest *request.Generate
 
 	wg.Wait()
 
-	return results
+	data := models.JsonStructure{
+		Table:    generateRequest.Table,
+		DataKey:  key,
+		Quantity: generateRequest.Quantity,
+		Datas:    results,
+	}
+
+	return data
 }
