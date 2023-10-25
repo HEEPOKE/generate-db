@@ -43,7 +43,7 @@ func NewServer(generateRepository interfaces.GenerateRepository, insertRepositor
 	insertService := services.NewInsertService(insertRepository)
 	insertHandler := handlers.NewInsertHandler(*insertService)
 
-	utilitiesService := services.NewUtilitiesService(generateService)
+	utilitiesService := services.NewUtilitiesService(utilitiesRepository)
 	utilitiesHandler := handlers.NewUtilitiesHandler(*utilitiesService)
 
 	return &Server{
@@ -81,4 +81,7 @@ func (s *Server) routeConfig() {
 
 	// insert := apis.Group("/insert")
 	// insert.POST("/", s.insertHandler.)
+
+	utilities := apis.Group("/utilities")
+	utilities.GET("/check-data", s.utilitiesHandler.CheckKeyData)
 }

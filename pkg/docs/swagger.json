@@ -16,6 +16,39 @@
     "host": "localhost:6476",
     "basePath": "/apis",
     "paths": {
+        "/generate/check-data": {
+            "get": {
+                "description": "Get Data From Key in Cache",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Utilities"
+                ],
+                "summary": "Get Data From Key in Cache",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "key",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/generate/get-details": {
             "get": {
                 "description": "Get List All Generate Data",
@@ -81,6 +114,9 @@
             "type": "string",
             "enum": [
                 "name",
+                "firstname",
+                "lastname",
+                "email",
                 "tel",
                 "password",
                 "word",
@@ -103,6 +139,9 @@
             ],
             "x-enum-varnames": [
                 "NAME",
+                "FIRSTNAME",
+                "LASTNAME",
+                "EMAIL",
                 "TEL",
                 "PASSWORD",
                 "WORD",

@@ -37,7 +37,7 @@ func (g *GenerateRepository) SaveDetailsGenerate(generate *models.Generate) erro
 func (g *GenerateRepository) GenerateData(data models.Generate, generateRequest *request.GenerateRequest) (models.JsonStructure, error) {
 	results := utils.GenerateBatchData(data.Key, generateRequest)
 
-	jsonData, err := json.Marshal(data)
+	jsonData, err := json.Marshal(results)
 	if err != nil {
 		return models.JsonStructure{}, nil
 	}
