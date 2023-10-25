@@ -6,22 +6,27 @@ import (
 )
 
 type InsertRepository struct {
-	conn    *gorm.DB
-	mongoDB *mongo.Database
+	conn                *gorm.DB
+	mongoDB             *mongo.Database
+	utilitiesRepository *UtilitiesRepository
 }
 
-func NewInsertRepository(conn *gorm.DB, mongoDB *mongo.Database) *InsertRepository {
+func NewInsertRepository(conn *gorm.DB, mongoDB *mongo.Database, utilitiesRepository *UtilitiesRepository) *InsertRepository {
 	return &InsertRepository{
-		conn:    conn,
-		mongoDB: mongoDB,
+		conn:                conn,
+		mongoDB:             mongoDB,
+		utilitiesRepository: utilitiesRepository,
 	}
 }
 
-// func (i *InsertRepository) InsertDataBase(typeDatabase enums.Database) error {
+// func (i *InsertRepository) InsertDataBaseWithKey(key string, typeDatabase enums.Database) error {
 // 	if typeDatabase == enums.MONGO {
 
 // 	} else {
+// 		getData, err := i.utilitiesRepository.CheckKeyData(key)
 
+// 		if err != nil {
+// 			return err
+// 		}
 // 	}
-// 	return
 // }
