@@ -61,9 +61,9 @@ func main() {
 
 	generateRepository := repositories.NewGenerateRepository(db, databases.Rdb)
 	insertRepository := repositories.NewInsertRepository(sqlDB, mongoDB)
-	utlitiesRepository := repositories.NewUtilitiesRepository(db, databases.Rdb)
+	utilitiesRepository := repositories.NewUtilitiesRepository(db, databases.Rdb)
 
 	address := fmt.Sprintf(":%s", config.Cfg.PORT)
-	http := server.NewServer(generateRepository, insertRepository, utlitiesRepository)
+	http := server.NewServer(generateRepository, insertRepository, utilitiesRepository)
 	http.RouteInit(address)
 }
