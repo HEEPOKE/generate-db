@@ -63,15 +63,20 @@ func (gh *GenerateHandler) GetListGenerateAll(c echo.Context) error {
 // @param Body body examples.GenerateExample true "GenerateRequestBody"
 func (gh *GenerateHandler) MockupData(c echo.Context) error {
 	var req request.GenerateRequest
+	var key string
 
 	err := c.Bind(&req)
 	if err != nil {
 		return helpers.FailResponse(c, err, constants.ERR_DECODE_DATA, http.StatusBadRequest)
 	}
 
-	key, err := utils.GenerateRandomKey()
-	if err != nil {
-		return helpers.FailResponse(c, err, constants.ERR_GENERATE_KEY, http.StatusInternalServerError)
+	if req.DataKey == "" {
+		key, err = utils.GenerateRandomKey()
+		if err != nil {
+			return helpers.FailResponse(c, err, constants.ERR_GENERATE_KEY, http.StatusInternalServerError)
+		}
+	} else {
+		key = req.DataKey
 	}
 
 	generateData := models.Generate{
