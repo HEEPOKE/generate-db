@@ -14,8 +14,7 @@ func FailResponse(responseData models.FailMessage) error {
 	}
 
 	response := response.ResponseMessage{
-		Status:  status,
-		Payload: nil,
+		Status: status,
 	}
 
 	return responseData.Echo.JSON(responseData.StatusCode, response)
@@ -33,5 +32,6 @@ func SuccessResponse(responseData models.SuccessMessage) error {
 		Status:  status,
 		Payload: responseData.Payload,
 	}
+
 	return responseData.Echo.JSON(responseData.StatusCode, response)
 }

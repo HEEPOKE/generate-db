@@ -27,14 +27,15 @@ func NewGenerateHandler(generateService services.GenerateService) *GenerateHandl
 // @Tags Generate
 // @Accept application/json
 // @Produce json
-// @Success 200 {object} map[string]interface{}
 // @Router /generate/get-details [get]
+// @Success 200 {object} examples.SuccessGenerateGetAllResponse
+// @Failure 400 {object} examples.FailedCommonResponse
 func (gh *GenerateHandler) GetListGenerateAll(c echo.Context) error {
 	users, err := gh.generateService.GetGenerateAll()
 	if err != nil {
 		responseData := models.FailMessage{
 			Echo:        c,
-			StatusCode:  http.StatusInternalServerError,
+			StatusCode:  http.StatusBadRequest,
 			Code:        constants.CODE_FAILED,
 			Message:     constants.MESSAGE_FAIL,
 			Service:     constants.SERVICE_GENERATE,
@@ -62,9 +63,10 @@ func (gh *GenerateHandler) GetListGenerateAll(c echo.Context) error {
 // @Tags Generate
 // @Accept application/json
 // @Produce json
-// @Success 201 {object} map[string]interface{}
-// @Router /generate/mockup-data [post]
 // @param Body body examples.GenerateExample true "GenerateRequestBody"
+// @Router /generate/mockup-data [post]
+// @Success 201 {object} examples.SuccessCheckDataFromKeyResponse
+// @Failure 400 {object} examples.FailedCommonResponse
 func (gh *GenerateHandler) MockupData(c echo.Context) error {
 	var req request.GenerateRequest
 	var key string
@@ -73,7 +75,7 @@ func (gh *GenerateHandler) MockupData(c echo.Context) error {
 	if err != nil {
 		responseData := models.FailMessage{
 			Echo:        c,
-			StatusCode:  http.StatusInternalServerError,
+			StatusCode:  http.StatusBadRequest,
 			Code:        constants.CODE_FAILED,
 			Message:     constants.MESSAGE_FAIL,
 			Service:     constants.SERVICE_GENERATE,
@@ -87,7 +89,7 @@ func (gh *GenerateHandler) MockupData(c echo.Context) error {
 		if err != nil {
 			responseData := models.FailMessage{
 				Echo:        c,
-				StatusCode:  http.StatusInternalServerError,
+				StatusCode:  http.StatusBadRequest,
 				Code:        constants.CODE_FAILED,
 				Message:     constants.MESSAGE_FAIL,
 				Service:     constants.SERVICE_GENERATE,
@@ -110,7 +112,7 @@ func (gh *GenerateHandler) MockupData(c echo.Context) error {
 	if err != nil {
 		responseData := models.FailMessage{
 			Echo:        c,
-			StatusCode:  http.StatusInternalServerError,
+			StatusCode:  http.StatusBadRequest,
 			Code:        constants.CODE_FAILED,
 			Message:     constants.MESSAGE_FAIL,
 			Service:     constants.SERVICE_GENERATE,
@@ -123,7 +125,7 @@ func (gh *GenerateHandler) MockupData(c echo.Context) error {
 	if err != nil {
 		responseData := models.FailMessage{
 			Echo:        c,
-			StatusCode:  http.StatusInternalServerError,
+			StatusCode:  http.StatusBadRequest,
 			Code:        constants.CODE_FAILED,
 			Message:     constants.MESSAGE_FAIL,
 			Service:     constants.SERVICE_GENERATE,

@@ -50,6 +50,24 @@ definitions:
     - FLOAT64
     - BYTE
     - RUNE
+  examples.FailedCommonResponse:
+    properties:
+      status:
+        $ref: '#/definitions/examples.FailedStatusMessage'
+    type: object
+  examples.FailedStatusMessage:
+    properties:
+      code:
+        example: "0001"
+        type: string
+      description:
+        type: string
+      message:
+        example: Failed
+        type: string
+      service:
+        type: string
+    type: object
   examples.GenerateExample:
     properties:
       columns:
@@ -82,6 +100,77 @@ definitions:
       types:
         $ref: '#/definitions/enums.Category'
     type: object
+  examples.GenerateResponseExample:
+    properties:
+      created_at:
+        example: "2022-01-01 00:00:00"
+        type: string
+      deleted_at:
+        example: "0001-01-01 00:00:00"
+        type: string
+      id:
+        example: 1
+        type: integer
+      key:
+        example: "123456"
+        type: string
+      quantity:
+        example: 1000
+        type: integer
+      table:
+        example: users
+        type: string
+      time_expired:
+        example: "2022-01-01 00:00:00"
+        type: string
+      updated_at:
+        example: "2022-01-01 00:00:00"
+        type: string
+    type: object
+  examples.SuccessCheckDataFromKeyResponse:
+    properties:
+      payload:
+        $ref: '#/definitions/models.JsonStructure'
+      status:
+        $ref: '#/definitions/examples.SuccessStatusMessage'
+    type: object
+  examples.SuccessGenerateGetAllResponse:
+    properties:
+      payload:
+        $ref: '#/definitions/examples.GenerateResponseExample'
+      status:
+        $ref: '#/definitions/examples.SuccessStatusMessage'
+    type: object
+  examples.SuccessStatusMessage:
+    properties:
+      code:
+        example: "0000"
+        type: string
+      description:
+        type: string
+      message:
+        example: Success
+        type: string
+      service:
+        type: string
+    type: object
+  models.JsonStructure:
+    properties:
+      datas:
+        items:
+          additionalProperties: true
+          type: object
+        type: array
+      key:
+        example: "123456"
+        type: string
+      quantity:
+        example: 1000
+        type: integer
+      table:
+        example: users
+        type: string
+    type: object
 host: localhost:6476
 info:
   contact:
@@ -92,28 +181,6 @@ info:
   title: Generate Mock-up API
   version: "1.0"
 paths:
-  /generate/check-data:
-    get:
-      consumes:
-      - application/json
-      description: Get Data From Key in Cache
-      parameters:
-      - description: key
-        in: query
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Get Data From Key in Cache
-      tags:
-      - Utilities
   /generate/get-details:
     get:
       consumes:
@@ -125,8 +192,11 @@ paths:
         "200":
           description: OK
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/examples.SuccessGenerateGetAllResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/examples.FailedCommonResponse'
       summary: Get List All Generate Data
       tags:
       - Generate
@@ -148,11 +218,40 @@ paths:
         "201":
           description: Created
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/examples.SuccessCheckDataFromKeyResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/examples.FailedCommonResponse'
       summary: Get Auto Generate Mock up data
       tags:
       - Generate
+  /utilities/check-data:
+    get:
+      consumes:
+      - application/json
+      description: Get Data From Key in Cache
+      parameters:
+      - description: key
+        example: "123456"
+        in: query
+        name: key
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/examples.SuccessCheckDataFromKeyResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/examples.FailedCommonResponse'
+      summary: Get Data From Key in Cache
+      tags:
+      - Utilities
 schemes:
 - http
 swagger: "2.0"

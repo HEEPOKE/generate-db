@@ -19,39 +19,6 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/generate/check-data": {
-            "get": {
-                "description": "Get Data From Key in Cache",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Utilities"
-                ],
-                "summary": "Get Data From Key in Cache",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "key",
-                        "name": "id",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
         "/generate/get-details": {
             "get": {
                 "description": "Get List All Generate Data",
@@ -69,8 +36,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/examples.SuccessGenerateGetAllResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/examples.FailedCommonResponse"
                         }
                     }
                 }
@@ -104,8 +76,52 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/examples.SuccessCheckDataFromKeyResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/examples.FailedCommonResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/utilities/check-data": {
+            "get": {
+                "description": "Get Data From Key in Cache",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Utilities"
+                ],
+                "summary": "Get Data From Key in Cache",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "example": "123456",
+                        "description": "key",
+                        "name": "key",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/examples.SuccessCheckDataFromKeyResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/examples.FailedCommonResponse"
                         }
                     }
                 }
@@ -166,6 +182,33 @@ const docTemplate = `{
                 "RUNE"
             ]
         },
+        "examples.FailedCommonResponse": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "$ref": "#/definitions/examples.FailedStatusMessage"
+                }
+            }
+        },
+        "examples.FailedStatusMessage": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "0001"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Failed"
+                },
+                "service": {
+                    "type": "string"
+                }
+            }
+        },
         "examples.GenerateExample": {
             "type": "object",
             "required": [
@@ -209,6 +252,108 @@ const docTemplate = `{
                 },
                 "types": {
                     "$ref": "#/definitions/enums.Category"
+                }
+            }
+        },
+        "examples.GenerateResponseExample": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string",
+                    "example": "2022-01-01 00:00:00"
+                },
+                "deleted_at": {
+                    "type": "string",
+                    "example": "0001-01-01 00:00:00"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "key": {
+                    "type": "string",
+                    "example": "123456"
+                },
+                "quantity": {
+                    "type": "integer",
+                    "example": 1000
+                },
+                "table": {
+                    "type": "string",
+                    "example": "users"
+                },
+                "time_expired": {
+                    "type": "string",
+                    "example": "2022-01-01 00:00:00"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": "2022-01-01 00:00:00"
+                }
+            }
+        },
+        "examples.SuccessCheckDataFromKeyResponse": {
+            "type": "object",
+            "properties": {
+                "payload": {
+                    "$ref": "#/definitions/models.JsonStructure"
+                },
+                "status": {
+                    "$ref": "#/definitions/examples.SuccessStatusMessage"
+                }
+            }
+        },
+        "examples.SuccessGenerateGetAllResponse": {
+            "type": "object",
+            "properties": {
+                "payload": {
+                    "$ref": "#/definitions/examples.GenerateResponseExample"
+                },
+                "status": {
+                    "$ref": "#/definitions/examples.SuccessStatusMessage"
+                }
+            }
+        },
+        "examples.SuccessStatusMessage": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "0000"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Success"
+                },
+                "service": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.JsonStructure": {
+            "type": "object",
+            "properties": {
+                "datas": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": true
+                    }
+                },
+                "key": {
+                    "type": "string",
+                    "example": "123456"
+                },
+                "quantity": {
+                    "type": "integer",
+                    "example": 1000
+                },
+                "table": {
+                    "type": "string",
+                    "example": "users"
                 }
             }
         }

@@ -9,5 +9,5 @@ type StatusMessage struct {
 
 type ResponseMessage struct {
 	Status  StatusMessage `json:"status"`
-	Payload interface{}   `json:"payload"`
+	Payload interface{}   `json:"payload,omitempty"`
 }

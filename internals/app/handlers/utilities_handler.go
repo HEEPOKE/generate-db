@@ -24,9 +24,10 @@ func NewUtilitiesHandler(utilitiesService services.UtilitiesService) *UtilitiesH
 // @Tags Utilities
 // @Accept application/json
 // @Produce json
-// @param id query string true "key" example(123)
-// @Router /generate/check-data [get]
-// @Success 200 {object} map[string]interface{}
+// @param key query string true "key" example(123456)
+// @Router /utilities/check-data [get]
+// @Success 200 {object} examples.SuccessCheckDataFromKeyResponse
+// @Failure 400 {object} examples.FailedCommonResponse
 func (uh *UtilitiesHandler) CheckKeyData(c echo.Context) error {
 	param := c.QueryParam("key")
 
@@ -34,7 +35,7 @@ func (uh *UtilitiesHandler) CheckKeyData(c echo.Context) error {
 	if err != nil {
 		responseData := models.FailMessage{
 			Echo:        c,
-			StatusCode:  http.StatusInternalServerError,
+			StatusCode:  http.StatusBadRequest,
 			Code:        constants.CODE_FAILED,
 			Message:     constants.MESSAGE_FAIL,
 			Service:     constants.SERVICE_UTILITIES,
