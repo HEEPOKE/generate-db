@@ -1,7 +1,7 @@
 package response
 
 type StatusMessage struct {
-	Code        int    `json:"code"`
+	Code        string `json:"code"`
 	Message     string `json:"message"`
 	Service     string `json:"service"`
 	Description string `json:"description"`

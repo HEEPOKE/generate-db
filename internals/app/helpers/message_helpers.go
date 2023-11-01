@@ -1,21 +1,37 @@
 package helpers
 
 import (
+	"github.com/HEEPOKE/generate-db/internals/domains/models"
 	"github.com/HEEPOKE/generate-db/internals/domains/models/response"
-	"github.com/labstack/echo/v4"
 )
 
-func FailResponse(c echo.Context, err error, msg string, status int) error {
-	if err != nil {
-		response := response.ErrorResponse{
-			Message: msg,
-			Error:   err.Error(),
-		}
-		return c.JSON(status, response)
+func FailResponse(responseData models.FailMessage) error {
+	status := response.StatusMessage{
+		Code:        responseData.Code,
+		Message:     responseData.Message,
+		Service:     responseData.Service,
+		Description: responseData.Description.Error(),
 	}
-	return nil
+
+	response := response.ResponseMessage{
+		Status:  status,
+		Payload: nil,
+	}
+
+	return responseData.Echo.JSON(responseData.StatusCode, response)
 }
 
-func SuccessResponse(c echo.Context, status int, responseMessage interface{}) error {
-	return c.JSON(status, responseMessage)
+func SuccessResponse(responseData models.SuccessMessage) error {
+	status := response.StatusMessage{
+		Code:        responseData.Code,
+		Message:     responseData.Message,
+		Service:     responseData.Service,
+		Description: responseData.Description,
+	}
+
+	response := response.ResponseMessage{
+		Status:  status,
+		Payload: responseData.Payload,
+	}
+	return responseData.Echo.JSON(responseData.StatusCode, response)
 }

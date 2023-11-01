@@ -51,12 +51,12 @@ func GeneratePassword(length int) string {
 	source := rand.NewSource(GetTimeNowThai().UnixNano())
 	random := rand.New(source)
 
-	password := make([]byte, length)
+	randomNumber := make([]byte, length)
 	for i := 0; i < length; i++ {
-		password[i] = validChars[random.Intn(len(validChars))]
+		randomNumber[i] = validChars[random.Intn(len(validChars))]
 	}
 
-	return string(password)
+	return string(randomNumber)
 }
 
 func GenerateBool(genLean string) bool {
