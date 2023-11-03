@@ -13,6 +13,7 @@ type Generate struct {
 	Table       string         `gorm:"type:VARCHAR(255);" json:"table"`
 	Quantity    int64          `gorm:"type:BIGINT" json:"quantity"`
 	TimeExpired time.Time      `json:"time_expired"`
+	FilePath    string         `json:"file_path"`
 	CreatedAt   time.Time      `json:"created_at"`
 	UpdatedAt   time.Time      `json:"updated_at"`
 	DeletedAt   gorm.DeletedAt `gorm:"index" json:"deleted_at"`

@@ -16,3 +16,7 @@ func NewUtilitiesService(utilitiesRepository interfaces.UtilitiesRepository) *Ut
 func (u *UtilitiesService) CheckKeyData(key string) (models.JsonStructure, error) {
 	return u.utilitiesRepository.CheckKeyData(key)
 }
+
+func (u *UtilitiesService) UpdatePathFileJson(table, key, path string) error {
+	return u.utilitiesRepository.UpdatePathFileJson(table, key, path)
+}

@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"encoding/json"
+	"errors"
 
 	"github.com/HEEPOKE/generate-db/internals/core/cache"
 	"github.com/HEEPOKE/generate-db/internals/domains/models"
@@ -32,4 +33,22 @@ func (u *UtilitiesRepository) CheckKeyData(key string) (models.JsonStructure, er
 	}
 
 	return result, nil
+}
+
+func (u *UtilitiesRepository) UpdatePathFileJson(table, key, path string) error {
+	var existingRecord models.Generate
+	if err := u.db.Where("key = ? AND table = ?", key, table).First(&existingRecord).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return errors.New("record not found")
+		}
+		return err
+	}
+
+	existingRecord.FilePath = path
+
+	if err := u.db.Save(&existingRecord).Error; err != nil {
+		return err
+	}
+
+	return nil
 }
