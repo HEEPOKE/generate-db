@@ -12,12 +12,14 @@ import (
 )
 
 type GenerateRepository struct {
-	db *gorm.DB
+	db                  *gorm.DB
+	utilitiesRepository *UtilitiesRepository
 }
 
-func NewGenerateRepository(db *gorm.DB) *GenerateRepository {
+func NewGenerateRepository(db *gorm.DB, utilitiesRepository *UtilitiesRepository) *GenerateRepository {
 	return &GenerateRepository{
-		db: db,
+		db:                  db,
+		utilitiesRepository: utilitiesRepository,
 	}
 }
 
@@ -39,15 +41,23 @@ func (g *GenerateRepository) GenerateData(data models.Generate, generateRequest 
 
 	jsonData, err := json.Marshal(results)
 	if err != nil {
-		return models.JsonStructure{}, nil
-	}
-
-	if err := cache.SetKey(data.Key, jsonData); err != nil {
+		log.Printf("Error marshaling JSON: %v", err)
 		return models.JsonStructure{}, err
 	}
 
-	if err := utils.CreateJSONFile(results, data); err != nil {
+	filePath, err := utils.CreateJSONFile(results, data)
+	if err != nil {
 		log.Printf("Error creating JSON file: %v", err)
+		return models.JsonStructure{}, err
+	}
+
+	if err := g.utilitiesRepository.UpdatePathFileJson(data.Table, data.Key, filePath); err != nil {
+		log.Printf("Error updating path and file JSON: %v", err)
+		return models.JsonStructure{}, err
+	}
+
+	if err := cache.SetKey(data.Key, jsonData); err != nil {
+		log.Printf("Error setting cache key: %v", err)
 		return models.JsonStructure{}, err
 	}
 

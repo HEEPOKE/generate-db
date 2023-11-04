@@ -60,7 +60,7 @@ func main() {
 	}
 
 	utilitiesRepository := repositories.NewUtilitiesRepository(db)
-	generateRepository := repositories.NewGenerateRepository(db)
+	generateRepository := repositories.NewGenerateRepository(db, utilitiesRepository)
 	insertRepository := repositories.NewInsertRepository(sqlDB, mongoDB, utilitiesRepository)
 
 	address := fmt.Sprintf(":%s", config.Cfg.PORT)
