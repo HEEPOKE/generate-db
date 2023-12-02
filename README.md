@@ -19,7 +19,7 @@ docker compose up -d && docker compose logs api --follow
 ## Create DB For test
 
 ```bash
-docker compose -f db-test.yml up -d && docker compose -f db-test.yml logs --follow
+docker compose -f db-test.yml up -d && docker compose -f db-test.yml logs
 ```
 
 ## Test
