@@ -42,9 +42,7 @@ swag init -g cmd/main.go --output=pkg/docs
 
 ## Local Swagger Doc Api
 
-```bash
-http://localhost:6476/apis/docs/index.html
-```
+<http://localhost:6476/apis/docs/index.html>
 
 ## Example DSN Database
 
